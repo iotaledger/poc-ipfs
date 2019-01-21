@@ -1,0 +1,9 @@
+{
+    "provider": "https://MYNODE/",
+    "ipfs": {
+        "protocol": "MYIPFSNODE_PROTOCOL",
+        "host": "MYIPFSNODE_HOST",
+        "port": "MYIPFSNODE_PORT"
+    },
+    "seed": "TANGLE_SEED"
+}

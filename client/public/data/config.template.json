@@ -1,0 +1,4 @@
+{
+    "apiEndpoint": "ENDPOINT",
+    "ipfsGateway": "https://cloudflare-ipfs.com/ipfs/:hash"
+}
