@@ -7,6 +7,8 @@ To configure the `api` you should copy `./src/data/config.template.json` to `./s
 ```js
 {
     "provider": "https://MYNODE/",                   /* A node to perform Tangle operations */
+    "depth": 3,                                      /* Depth to use for attaches */
+    "mwm": 9,                                        /* MWM to use for attaches */
     "ipfs": {                                        /* IPFS Node with storage support */
         "protocol": "MYIPFSNODE_PROTOCOL",
         "host": "MYIPFSNODE_HOST",
