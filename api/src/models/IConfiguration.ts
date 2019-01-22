@@ -10,6 +10,16 @@ export interface IConfiguration {
     provider: string;
 
     /**
+     * Depth for attaches.
+     */
+    depth: number;
+
+    /**
+     * Minimunm weight magnitude for attaches.
+     */
+    mwm: number;
+
+    /**
      * The IPFS configuration.
      */
     ipfs: IIPFSConfiguration;

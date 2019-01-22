@@ -1,5 +1,7 @@
 {
     "provider": "https://MYNODE/",
+    "depth": 3,
+    "mwm": 9,
     "ipfs": {
         "protocol": "MYIPFSNODE_PROTOCOL",
         "host": "MYIPFSNODE_HOST",

@@ -1,4 +1,8 @@
 {
     "apiEndpoint": "ENDPOINT",
-    "ipfsGateway": "https://cloudflare-ipfs.com/ipfs/:hash"
+    "ipfsGateway": "https://cloudflare-ipfs.com/ipfs/:hash",
+    "tangleExplorer": {
+        "transactions": "https://devnet.thetangle.org/transaction/:transactionHash",
+        "bundles": "https://devnet.thetangle.org/bundle/:bundleHash"
+    }
 }

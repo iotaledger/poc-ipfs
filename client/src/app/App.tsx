@@ -8,6 +8,7 @@ import { ServiceFactory } from "../factories/serviceFactory";
 import { IConfiguration } from "../models/config/IConfiguration";
 import { ConfigurationService } from "../services/configurationService";
 import { IpfsService } from "../services/ipfsService";
+import { TangleExplorerService } from "../services/tangleExplorerService";
 import { AppState } from "./AppState";
 import UploadFile from "./routes/UploadFile";
 
@@ -38,6 +39,7 @@ class App extends Component<RouteComponentProps, AppState> {
 
             ServiceFactory.register("configuration", () => configService);
             ServiceFactory.register("ipfs", () => new IpfsService(config.ipfsGateway));
+            ServiceFactory.register("tangleExplorer", () => new TangleExplorerService(config.tangleExplorer));
 
             this.setState({
                 status: "",

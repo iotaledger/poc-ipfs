@@ -33,7 +33,11 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         }
 
         const ipfs = ipfsClient(config.ipfs);
+
+        const addStart = Date.now();
+        console.log(`Adding file ${request.name} to IPFS of length ${request.size}`);
         const addResponse = await ipfs.add(buffer);
+        console.log(`Adding file ${request.name} complete in ${Date.now() - addStart}ms`);
 
         const iota: any = composeAPI({
             provider: config.provider
@@ -50,6 +54,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             ipfs: addResponse[0].hash
         };
 
+        console.log(`Prepare Transfer`);
         const trytes = await iota.prepareTransfers(
             "9".repeat(81),
             [
@@ -60,7 +65,10 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
                 }
             ]);
 
-        const bundles = await iota.sendTrytes(trytes, 3, 14);
+        const sendStart = Date.now();
+        console.log(`Sending Trytes`);
+        const bundles = await iota.sendTrytes(trytes, config.depth, config.mwm);
+        console.log(`Sending Trytes complete in ${Date.now() - sendStart}ms`);
 
         return {
             success: true,

@@ -3,11 +3,11 @@ import crypto from "crypto";
 import { Alert, Button, Fieldset, Form, FormButtons, Heading, Spinner, Success } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { ServiceFactory } from "../../factories/serviceFactory";
-import { TangleExplorer } from "../../helpers/tangleExplorer";
 import { IConfiguration } from "../../models/config/IConfiguration";
 import { ApiClient } from "../../services/apiClient";
 import { ConfigurationService } from "../../services/configurationService";
 import { IpfsService } from "../../services/ipfsService";
+import { TangleExplorerService } from "../../services/tangleExplorerService";
 import { UploadFileState } from "./UploadFileState";
 
 /**
@@ -35,6 +35,11 @@ class UploadFile extends Component<any, UploadFileState> {
     private readonly _ipfsService: IpfsService;
 
     /**
+     * The tangle explorer service.
+     */
+    private readonly _tangleExplorerService: TangleExplorerService;
+
+    /**
      * Create a new instance of UploadFile.
      * @param props The props.
      */
@@ -44,6 +49,7 @@ class UploadFile extends Component<any, UploadFileState> {
         this._configuration = ServiceFactory.get<ConfigurationService<IConfiguration>>("configuration").get();
         this._apiClient = new ApiClient(this._configuration.apiEndpoint);
         this._ipfsService = ServiceFactory.get<IpfsService>("ipfs");
+        this._tangleExplorerService = ServiceFactory.get<TangleExplorerService>("tangleExplorer");
 
         this.state = {
             isBusy: false,
@@ -146,7 +152,7 @@ class UploadFile extends Component<any, UploadFileState> {
                         <Success />
                         <p>The file has successfully been added to the Tangle and IPFS.</p>
                         <p>You can view the transaction on the Tangle here.</p>
-                        <Button color="primary" long={true} onClick={() => TangleExplorer.transaction(this.state.transactionHash)}>{this.state.transactionHash}</Button>
+                        <Button color="primary" long={true} onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}>{this.state.transactionHash}</Button>
                         <p>A public gateway for the file is linked below, the file may not be available immediately as it takes time to propogate through the IPFS network.</p>
                         <Button color="primary" long={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
                         <FormButtons>
