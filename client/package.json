@@ -29,7 +29,7 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "sass-lint": "sass-lint -v -c ./.sass-lint.yml",
-        "deploy-staging": "cd build && now --local-config=../now.json && now alias --local-config=../now.json"
+        "deploy-dev": "cd build && now --local-config=../now.json && now alias --local-config=../now.json"
     },
     "browserslist": [
         ">0.2%",
