@@ -23,7 +23,7 @@
         "node": "10.x.x"
     },
     "scripts": {
-        "start-dev": "cross-env PORT=3001 react-scripts start",
+        "start": "cross-env PORT=3001 react-scripts start",
         "lint": "tslint --project ./tsconfig.json",
         "build": "react-scripts build",
         "test": "react-scripts test",
