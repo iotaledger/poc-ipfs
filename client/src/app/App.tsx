@@ -1,7 +1,7 @@
 import "iota-css-theme";
 import { Alert, Footer, Header } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
-import { Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
+import { Link, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import contentHomePage from "../content/contentHomePage.json";
 import { ServiceFactory } from "../factories/serviceFactory";
@@ -10,6 +10,7 @@ import { ConfigurationService } from "../services/configurationService";
 import { IpfsService } from "../services/ipfsService";
 import { TangleExplorerService } from "../services/tangleExplorerService";
 import { AppState } from "./AppState";
+import RetrieveFile from "./routes/RetrieveFile";
 import UploadFile from "./routes/UploadFile";
 
 /**
@@ -61,11 +62,16 @@ class App extends Component<RouteComponentProps, AppState> {
         return (
             <React.Fragment>
                 <Header title="IOTA IPFS" topLinks={contentHomePage.headerTopLinks} logo={logo} compact={true} />
+                <nav>
+                    <Link className="link" to="/">Upload File</Link>
+                    <Link className="link" to="/retrieve">Retrieve File</Link>
+                </nav>
                 <section className="content">
                     <Alert status={this.state.status} color={this.state.statusColor} />
                     {!this.state.status && (
                         <Switch>
                             <Route exact={true} path="/" component={UploadFile} />
+                            <Route exact={true} path="/retrieve" component={RetrieveFile} />
                         </Switch>
                     )}
                 </section>

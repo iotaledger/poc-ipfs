@@ -108,7 +108,7 @@ class UploadFile extends Component<any, UploadFileState> {
                             }
                             {this.state.fileSha256 &&
                                 <Fieldset>
-                                    <label>Sha256 Hash</label>
+                                    <label>Sha256</label>
                                     <span>{this.state.fileSha256}</span>
                                 </Fieldset>
                             }
@@ -238,7 +238,7 @@ class UploadFile extends Component<any, UploadFileState> {
                     status: "",
                     statusColor: "success",
                     transactionHash: response.transactionHash,
-                    ipfsHash: response.ipfsHash
+                    ipfsHash: response.ipfs
                 });
             } else {
                 this.setState({

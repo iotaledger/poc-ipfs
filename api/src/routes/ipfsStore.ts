@@ -74,7 +74,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             success: true,
             message: "OK",
             transactionHash: bundles[0].hash,
-            ipfsHash: tanglePayload.ipfs
+            ipfs: tanglePayload.ipfs
         };
     } catch (err) {
         return {

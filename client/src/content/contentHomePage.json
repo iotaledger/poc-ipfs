@@ -28,6 +28,10 @@
                 {
                     "href": "/",
                     "text": "Upload File"
+                },
+                {
+                    "href": "/retrieve",
+                    "text": "Retrieve File"
                 }
             ]
         },

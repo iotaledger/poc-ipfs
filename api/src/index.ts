@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import express from "express";
 import { IConfiguration } from "./models/IConfiguration";
+import { ipfsRetrieve } from "./routes/ipfsRetrieve";
 import { ipfsStore } from "./routes/ipfsStore";
 
 // tslint:disable:no-var-requires no-require-imports
@@ -33,6 +34,13 @@ app.get("/", (req, res) => {
 
 app.post("/ipfs", async (req, res) => {
     const response = await ipfsStore(config, req.body);
+    res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify(response));
+    res.end();
+});
+
+app.get("/ipfs", async (req, res) => {
+    const response = await ipfsRetrieve(config, req.query);
     res.setHeader("Content-Type", "application/json");
     res.send(JSON.stringify(response));
     res.end();
