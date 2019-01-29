@@ -36,7 +36,8 @@ class App extends Component<RouteComponentProps, AppState> {
     public async componentDidMount(): Promise<void> {
         try {
             const configService = new ConfigurationService<IConfiguration>();
-            const config = await configService.load("/data/config.json");
+            const configId = process.env.CONFIG_ID || "dev";
+            const config = await configService.load(`/data/config.${configId}.json`);
 
             ServiceFactory.register("configuration", () => configService);
             ServiceFactory.register("ipfs", () => new IpfsService(config.ipfsGateway));

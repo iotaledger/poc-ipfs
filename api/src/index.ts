@@ -6,7 +6,9 @@ import { ipfsStore } from "./routes/ipfsStore";
 
 // tslint:disable:no-var-requires no-require-imports
 const packageJson = require("../package.json");
-const config: IConfiguration = require("./data/config.json");
+const configId = process.env.CONFIG_ID || "dev";
+// tslint:disable-next-line:non-literal-require
+const config: IConfiguration = require(`./data/config.${configId}.json`);
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 

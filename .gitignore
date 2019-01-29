@@ -1,8 +1,8 @@
 .history
 node_modules
 
-/api/src/data/config.json
+/api/src/data/config.dev.json
 /api/dist
 
-/client/public/data/config.json
+/client/public/data/config.dev.json
 /client/build

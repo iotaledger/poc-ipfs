@@ -14,12 +14,12 @@
         "build-compile": "tsc",
         "build-watch": "tsc --watch",
         "build-lint": "tslint -p ./tsconfig.json -c ./tslint.json -t verbose",
-        "build-config": "copyfiles -u 2 ./src/data/config.json ./dist/data/",
+        "build-config": "copyfiles -u 2 ./src/data/config*.json ./dist/data/",
         "build": "npm-run-all build-clean build-compile build-lint build-config",
         "serve-mon": "nodemon ./dist/index",
         "start-dev": "run-p serve-mon build-watch",
         "start": "node ./dist/index",
-        "deploy-dev": "now && now alias"
+        "deploy-dev": "now --docker -e CONFIG_ID=dev --build-env CONFIG_ID=dev"
     },
     "engines": {
         "node": "10.x.x"

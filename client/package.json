@@ -29,7 +29,7 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "sass-lint": "sass-lint -v -c ./.sass-lint.yml",
-        "deploy-dev": "cd build && now --local-config=../now.json && now alias --local-config=../now.json"
+        "deploy-dev": "now --docker -e CONFIG_ID=dev --build-env CONFIG_ID=dev --build-env GITHUB_TOKEN=@github_token"
     },
     "browserslist": [
         ">0.2%",

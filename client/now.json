@@ -1,31 +1,5 @@
 {
-  "version": 2,
+  "version": 1,
   "name": "iota-poc-ipfs",
-  "alias": "iota-poc-ipfs.dag.sh",
-  "routes": [
-      {
-          "src": "^/static/(.*)",
-          "dest": "/static/$1"
-      },
-      {
-          "src": "^/data/(.*)",
-          "dest": "/data/$1"
-      },
-      {
-          "src": "^/favicon/(.*)",
-          "dest": "/favicon/$1"
-      },
-      {
-          "src": "^/assets/(.*)",
-          "dest": "/assets/$1"
-      },
-      {
-          "src": "favicon.ico",
-          "dest": "/favicon.ico"
-      },
-      {
-          "src": ".*",
-          "dest": "/index.html"
-      }
-  ]
+  "alias": "iota-poc-ipfs.dag.sh"
 }
