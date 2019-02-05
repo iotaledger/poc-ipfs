@@ -1,5 +1,4 @@
 {
     "version": 1,
-    "name": "iota-poc-ipfs-api",
-    "alias": "iota-poc-ipfs-api.dag.sh"
+    "name": "iota-poc-ipfs-api"
 }

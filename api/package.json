@@ -18,8 +18,7 @@
         "build": "npm-run-all build-clean build-compile build-lint build-config",
         "serve-mon": "nodemon ./dist/index",
         "start-dev": "run-p serve-mon build-watch",
-        "start": "node ./dist/index",
-        "deploy-dev": "now --docker -e CONFIG_ID=dev --build-env CONFIG_ID=dev"
+        "start": "node ./dist/index"
     },
     "engines": {
         "node": "10.x.x"
