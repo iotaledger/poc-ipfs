@@ -5,15 +5,14 @@ import { IIPFSRetrieveResponse } from "../models/api/IIPFSRetrieveResponse";
 import { IConfiguration } from "../models/IConfiguration";
 import { IPayload } from "../models/tangle/IPayload";
 import { TrytesHelper } from "../utils/trytesHelper";
+import { ValidationHelper } from "../utils/validationHelper";
 
 /**
  * Ipfs retrieve command.
  */
 export async function ipfsRetrieve(config: IConfiguration, request: IIPFSRetrieveRequest): Promise<IIPFSRetrieveResponse> {
     try {
-        if (!request.transactionHash) {
-            throw new Error(`The request must include the 'transactionHash' parameter.`);
-        }
+        ValidationHelper.string(request.transactionHash, "transactionHash");
 
         const iota: any = composeAPI({
             provider: config.provider

@@ -161,7 +161,8 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                         {this.state.fileBuffer && (
                             <React.Fragment>
                                 <Success />
-                                <p>The file on IPFS has been successfully validated against the data on the Tangle.</p>
+                                <p>The file on IPFS has been successfully validated against the data on the Tangle, the file is linked below</p>
+                                <Button color="primary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
                             </React.Fragment>
                         )}
                         <FormButtons>

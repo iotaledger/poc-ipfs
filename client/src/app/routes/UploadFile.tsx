@@ -154,7 +154,7 @@ class UploadFile extends Component<any, UploadFileState> {
                         <p>You can view the transaction on the Tangle here.</p>
                         <Button color="primary" long={true} onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}>{this.state.transactionHash}</Button>
                         <p>A public gateway for the file is linked below, the file may not be available immediately as it takes time to propogate through the IPFS network.</p>
-                        <Button color="primary" long={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
+                        <Button color="primary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
                         <FormButtons>
                             <Button color="secondary" onClick={() => this.resetState()}>Upload Another File</Button>
                         </FormButtons>
@@ -227,7 +227,7 @@ class UploadFile extends Component<any, UploadFileState> {
                 name: this.state.fileName || "",
                 description: this.state.fileDescription || "",
                 size: this.state.fileSize || 0,
-                modified: this.state.fileModified || new Date(),
+                modified: (this.state.fileModified || new Date()).toISOString(),
                 sha256: this.state.fileSha256 || "",
                 data: (this.state.fileBuffer || Buffer.from("")).toString("base64")
             });

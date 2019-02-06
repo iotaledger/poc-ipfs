@@ -20,7 +20,7 @@ export interface IIPFSRetrieveResponse extends IResponse {
     /**
      * The modified date of the file to store.
      */
-    modified?: Date;
+    modified?: string;
 
     /**
      * The sha256 hash of the file to store.

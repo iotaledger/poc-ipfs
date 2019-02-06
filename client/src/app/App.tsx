@@ -71,8 +71,8 @@ class App extends Component<RouteComponentProps, AppState> {
                     <Alert status={this.state.status} color={this.state.statusColor} />
                     {!this.state.status && (
                         <Switch>
-                            <Route exact={true} path="/" component={UploadFile} />
-                            <Route exact={true} path="/retrieve" component={RetrieveFile} />
+                            <Route exact={true} path="/" component={() => (<UploadFile hash={Date.now()} />)} />
+                            <Route exact={true} path="/retrieve" component={() => (<RetrieveFile hash={Date.now()} />)} />
                         </Switch>
                     )}
                 </section>

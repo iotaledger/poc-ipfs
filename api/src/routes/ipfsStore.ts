@@ -5,13 +5,24 @@ import { IIPFSStoreRequest } from "../models/api/IIPFSStoreRequest";
 import { IIPFSStoreResponse } from "../models/api/IIPFSStoreResponse";
 import { IConfiguration } from "../models/IConfiguration";
 import { IPayload } from "../models/tangle/IPayload";
+import { IotaHelper } from "../utils/iotaHelper";
 import { TrytesHelper } from "../utils/trytesHelper";
+import { ValidationHelper } from "../utils/validationHelper";
 
 /**
  * Ipfs store command.
  */
 export async function ipfsStore(config: IConfiguration, request: IIPFSStoreRequest): Promise<IIPFSStoreResponse> {
     try {
+        ValidationHelper.string(request.name, "name");
+        ValidationHelper.string(request.description, "description");
+        ValidationHelper.number(request.size, "size");
+        ValidationHelper.string(request.modified, "modified");
+        ValidationHelper.string(request.sha256, "sha256");
+        ValidationHelper.string(request.data, "data");
+
+        await IotaHelper.isNodeAvailable(config.provider, true);
+
         const maxSize = 10240;
 
         const buffer = Buffer.from(request.data, "base64");
