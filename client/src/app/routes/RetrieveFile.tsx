@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { Alert, Button, Fieldset, Form, FormButtons, Heading, Spinner, Success } from "iota-react-components";
+import { Button, Fieldset, Form, FormActions, FormStatus, Heading, LayoutAppSingle, ScrollHelper, Success } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { ServiceFactory } from "../../factories/serviceFactory";
 import { IConfiguration } from "../../models/config/IConfiguration";
@@ -41,8 +41,8 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
         this.state = {
             isBusy: false,
             isValid: false,
+            isErrored: false,
             status: "",
-            statusColor: "success",
             fileName: "",
             fileDescription: "",
             fileSize: undefined,
@@ -60,7 +60,7 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
      */
     public render(): ReactNode {
         return (
-            <React.Fragment>
+            <LayoutAppSingle>
                 {!this.state.fileName && (
                     <React.Fragment>
                         <Heading level={1}>Retrieve File</Heading>
@@ -75,26 +75,10 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                                     onChange={(e) => this.setState({ transactionHash: e.target.value }, () => this.validateData())}
                                 />
                             </Fieldset>
-                            <FormButtons>
+                            <FormActions>
                                 <Button disabled={!this.state.isValid || this.state.isBusy} onClick={async () => this.retrieveFile()}>Retrieve</Button>
-                            </FormButtons>
-                            {this.state.isBusy && (
-                                <React.Fragment>
-                                    <FormButtons>
-                                        <Spinner />
-                                    </FormButtons>
-                                    <FormButtons>
-                                        Loading file data from the Tangle, please wait...
-                                    </FormButtons>
-                                </React.Fragment>
-                            )}
-                            {this.state.status && (
-                                <React.Fragment>
-                                    <FormButtons>
-                                        <Alert status={this.state.status} color={this.state.statusColor} />
-                                    </FormButtons>
-                                </React.Fragment>
-                            )}
+                            </FormActions>
+                            <FormStatus message={this.state.status} isBusy={this.state.isBusy} isError={this.state.isErrored} />
                         </Form>
                     </React.Fragment>
                 )}
@@ -141,23 +125,8 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                             )}
                         </Form>
 
-                        {this.state.isBusy && (
-                            <React.Fragment>
-                                <FormButtons>
-                                    <Spinner />
-                                </FormButtons>
-                                <FormButtons>
-                                    Validating file, please wait...
-                                </FormButtons>
-                            </React.Fragment>
-                        )}
-                        {this.state.status && (
-                            <React.Fragment>
-                                <FormButtons>
-                                    <Alert status={this.state.status} color={this.state.statusColor} />
-                                </FormButtons>
-                            </React.Fragment>
-                        )}
+                        <FormStatus message={this.state.status} isBusy={this.state.isBusy} isError={this.state.isErrored} />
+
                         {this.state.fileBuffer && (
                             <React.Fragment>
                                 <Success />
@@ -165,12 +134,13 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                                 <Button color="primary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
                             </React.Fragment>
                         )}
-                        <FormButtons>
+
+                        <FormActions>
                             <Button color="secondary" onClick={() => this.resetState()}>Retrieve Another File</Button>
-                        </FormButtons>
+                        </FormActions>
                     </React.Fragment>
                 )}
-            </React.Fragment>
+            </LayoutAppSingle>
         );
     }
 
@@ -188,69 +158,75 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
      * Validate the file using the API.
      */
     private async retrieveFile(): Promise<void> {
-        this.setState({ isBusy: true, status: "" }, async () => {
-            const response = await this._apiClient.retrieveFile({
-                transactionHash: this.state.transactionHash || ""
-            });
+        this.setState(
+            {
+                isBusy: true,
+                status: "Loading file data from the Tangle, please wait...",
+                isErrored: false
+            },
+            async () => {
+                const response = await this._apiClient.retrieveFile({
+                    transactionHash: this.state.transactionHash || ""
+                });
 
-            if (response.success) {
-                this.setState(
-                    {
-                        isBusy: true,
-                        status: "Loading file from IPFS",
-                        statusColor: "success",
-                        fileName: response.name,
-                        fileSize: response.size,
-                        fileModified: response.modified ? new Date(response.modified) : new Date(0),
-                        fileDescription: response.description,
-                        fileSha256: response.sha256,
-                        ipfsHash: response.ipfs
-                    },
-                    async () => {
-                        let ipfsSha256;
-                        try {
-                            if (response.ipfs) {
-                                const buffer = await this._ipfsService.getFile(response.ipfs);
+                if (response.success) {
+                    this.setState(
+                        {
+                            isBusy: true,
+                            status: "Loading file from IPFS, please wait...",
+                            isErrored: false,
+                            fileName: response.name,
+                            fileSize: response.size,
+                            fileModified: response.modified ? new Date(response.modified) : new Date(0),
+                            fileDescription: response.description,
+                            fileSha256: response.sha256,
+                            ipfsHash: response.ipfs
+                        },
+                        async () => {
+                            let ipfsSha256;
+                            try {
+                                if (response.ipfs) {
+                                    const buffer = await this._ipfsService.getFile(response.ipfs);
 
-                                if (buffer) {
-                                    const sha256 = crypto.createHash("sha256");
-                                    sha256.update(buffer);
-                                    ipfsSha256 = sha256.digest("hex");
+                                    if (buffer) {
+                                        const sha256 = crypto.createHash("sha256");
+                                        sha256.update(buffer);
+                                        ipfsSha256 = sha256.digest("hex");
 
-                                    if (ipfsSha256 === response.sha256) {
-                                        this.setState({
-                                            isBusy: false,
-                                            status: "",
-                                            statusColor: "success",
-                                            fileBuffer: buffer,
-                                            ipfsSha256
-                                        });
+                                        if (ipfsSha256 === response.sha256) {
+                                            this.setState({
+                                                isBusy: false,
+                                                status: "",
+                                                isErrored: false,
+                                                fileBuffer: buffer,
+                                                ipfsSha256
+                                            });
+                                        } else {
+                                            throw new Error("The Sha256 hash of the file loaded from IPFS does not match the data stored on the Tangle");
+                                        }
                                     } else {
-                                        throw new Error("The Sha256 hash of the file loaded from IPFS does not match the data stored on the Tangle");
+                                        throw new Error("Could not load file from IPFS");
                                     }
                                 } else {
-                                    throw new Error("Could not load file from IPFS");
+                                    throw new Error("IPFS hash is missing from response");
                                 }
-                            } else {
-                                throw new Error("IPFS hash is missing from response");
+                            } catch (err) {
+                                this.setState({
+                                    isBusy: false,
+                                    status: err.message,
+                                    isErrored: true,
+                                    ipfsSha256
+                                });
                             }
-                        } catch (err) {
-                            this.setState({
-                                isBusy: false,
-                                status: err.message,
-                                statusColor: "danger",
-                                ipfsSha256
-                            });
-                        }
+                        });
+                } else {
+                    this.setState({
+                        isBusy: false,
+                        status: response.message,
+                        isErrored: true
                     });
-            } else {
-                this.setState({
-                    isBusy: false,
-                    status: response.message,
-                    statusColor: "danger"
-                });
-            }
-        });
+                }
+            });
     }
 
     /**
@@ -261,8 +237,8 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
             {
                 isBusy: false,
                 isValid: false,
+                isErrored: false,
                 status: "",
-                statusColor: "success",
                 fileName: "",
                 fileDescription: "",
                 fileSize: undefined,
@@ -272,7 +248,10 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                 transactionHash: "",
                 ipfsHash: ""
             },
-            () => this.validateData());
+            () => {
+                this.validateData();
+                ScrollHelper.scrollRoot();
+            });
     }
 }
 

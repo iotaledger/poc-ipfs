@@ -1,0 +1,110 @@
+import bodyParser from "body-parser";
+import express from "express";
+import { IDataResponse } from "../models/api/IDataResponse";
+import { IConfiguration } from "../models/IConfiguration";
+import { IRoute } from "../models/IRoute";
+
+/**
+ * Class to help with expressjs routing.
+ */
+export class AppHelper {
+    /**
+     * Build the application from the routes and the configuration.
+     * @param routes The routes to build the application with.
+     * @param listening Callback called when app is successfully listening.
+     */
+    public static build(routes: IRoute[], listening?: (config: IConfiguration) => void): any {
+        // tslint:disable:no-var-requires no-require-imports
+        const packageJson = require("../../package.json");
+        const configId = process.env.CONFIG_ID || "dev";
+        // tslint:disable-next-line:non-literal-require
+        const config: IConfiguration = require(`../data/config.${configId}.json`);
+
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+        const port = process.env.PORT || 4000;
+        const app = express();
+
+        app.use(bodyParser.json({ limit: "10mb" }));
+        app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
+        app.use(bodyParser.json());
+
+        app.use((req, res, next) => {
+            res.setHeader("Access-Control-Allow-Origin", `*`);
+            res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
+            res.setHeader("Access-Control-Allow-Headers", "content-type");
+
+            next();
+        });
+
+        routes.unshift({ path: "/", method: "get", inline: async () => ({ name: packageJson.name, version: packageJson.version }) });
+
+        AppHelper.buildRoutes(config, app, routes);
+
+        app.listen(port, async err => {
+            if (err) {
+                throw err;
+            }
+
+            console.log(`Started API Server on port ${port} v${packageJson.version}`);
+            console.log(`Running Config '${configId}'`);
+
+            if (listening) {
+                listening(config);
+            }
+        });
+    }
+
+    /**
+     * Build routes and connect them to express js.
+     * @param config The configuration.
+     * @param app The expressjs app.
+     * @param routes The routes.
+     */
+    public static buildRoutes(config: IConfiguration, app: any, routes: IRoute[]): void {
+        for (let i = 0; i < routes.length; i++) {
+            app[routes[i].method](routes[i].path, async (req, res) => {
+                let response;
+                const start = Date.now();
+                try {
+                    let params = { ...req.params, ...req.query };
+                    let body;
+                    if (routes[i].dataBody) {
+                        body = req.body;
+                    } else {
+                        params = { ...params, ...req.query, ...req.body };
+                    }
+                    console.log(`===> ${routes[i].method.toUpperCase()} ${routes[i].path}`, params);
+                    if (routes[i].func) {
+                        let modulePath = "../routes/";
+                        if (routes[i].folder) {
+                            modulePath += `${routes[i].folder}/`;
+                        }
+                        modulePath += routes[i].func;
+                        // tslint:disable-next-line:non-literal-require
+                        const mod = require(modulePath);
+                        response = await mod[routes[i].func](config, params, body);
+                    } else if (routes[i].inline) {
+                        response = await routes[i].inline(config, params, body);
+                    }
+                } catch (err) {
+                    response = { success: false, message: err.message };
+                }
+                console.log(`<=== duration: ${Date.now() - start}ms`);
+                console.log(response);
+                if (routes[i].dataResponse) {
+                    const dataResponse = <IDataResponse>response;
+                    res.setHeader("Content-Type", dataResponse.contentType);
+                    if (dataResponse.filename) {
+                        res.setHeader("Content-Disposition", `attachment; filename="${dataResponse.filename}"`);
+                    }
+                    res.send(dataResponse.data);
+                } else {
+                    res.setHeader("Content-Type", "application/json");
+                    res.send(JSON.stringify(response));
+                }
+                res.end();
+            });
+        }
+    }
+}

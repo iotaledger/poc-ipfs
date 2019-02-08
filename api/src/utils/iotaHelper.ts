@@ -1,3 +1,4 @@
+import { GetNodeInfoResponse } from "@iota/core/typings/types";
 import axios from "axios";
 
 /**
@@ -7,13 +8,14 @@ export class IotaHelper {
     /**
      * Check to see if there is connectivity to a node.
      * @param provider The provider to check for connectivity.
+     * @param throwIfNoConnectivity Throw an exception if there is no tangle connectivity.
      * @returns True if there is connectivity.
      */
     public static async isNodeAvailable(provider: string, throwIfNoConnectivity: boolean = false): Promise<boolean> {
         let hasConnectivity;
 
         try {
-            const response = await axios.post<{ appName: string; appVersion: string }>(
+            const response = await axios.post<GetNodeInfoResponse>(
                 provider,
                 {
                     command: "getNodeInfo"

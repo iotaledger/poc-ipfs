@@ -1,4 +1,3 @@
-import { AlertColor } from "iota-react-components";
 
 export interface RetrieveFileState {
     /**
@@ -12,14 +11,14 @@ export interface RetrieveFileState {
     isBusy: boolean;
 
     /**
-     * Status to display.
+     * Has the request errored.
      */
-    status: string;
+    isErrored: boolean;
 
     /**
-     * Status color to display.
+     * Status message to display.
      */
-    statusColor: AlertColor;
+    status: string;
 
     /**
      * The hash of the transaction to validate.

@@ -11,6 +11,9 @@ import { ValidationHelper } from "../utils/validationHelper";
 
 /**
  * Ipfs store command.
+ * @param config The configuration.
+ * @param request the request.
+ * @returns The response.
  */
 export async function ipfsStore(config: IConfiguration, request: IIPFSStoreRequest): Promise<IIPFSStoreResponse> {
     try {

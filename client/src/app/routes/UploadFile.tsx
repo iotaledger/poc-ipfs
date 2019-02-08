@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import crypto from "crypto";
-import { Alert, Button, Fieldset, Form, FormButtons, Heading, Spinner, Success } from "iota-react-components";
+import { Alert, Button, Fieldset, Form, FormActions, FormStatus, Heading, LayoutAppSingle, ScrollHelper, Success } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { ServiceFactory } from "../../factories/serviceFactory";
 import { IConfiguration } from "../../models/config/IConfiguration";
@@ -54,8 +54,8 @@ class UploadFile extends Component<any, UploadFileState> {
         this.state = {
             isBusy: false,
             isValid: false,
+            isErrored: false,
             status: "",
-            statusColor: "success",
             fileName: "",
             fileDescription: "",
             fileSize: undefined,
@@ -73,7 +73,7 @@ class UploadFile extends Component<any, UploadFileState> {
      */
     public render(): ReactNode {
         return (
-            <React.Fragment>
+            <LayoutAppSingle>
                 {!this.state.transactionHash && (
                     <React.Fragment>
                         <Heading level={1}>Upload File</Heading>
@@ -123,26 +123,10 @@ class UploadFile extends Component<any, UploadFileState> {
                                     readOnly={this.state.isBusy}
                                 />
                             </Fieldset>
-                            <FormButtons>
+                            <FormActions>
                                 <Button disabled={!this.state.isValid || this.state.isBusy} onClick={async () => this.uploadFile()}>Upload</Button>
-                            </FormButtons>
-                            {this.state.isBusy && (
-                                <React.Fragment>
-                                    <FormButtons>
-                                        <Spinner />
-                                    </FormButtons>
-                                    <FormButtons>
-                                        Uploading file, please wait...
-                                    </FormButtons>
-                                </React.Fragment>
-                            )}
-                            {this.state.status && (
-                                <React.Fragment>
-                                    <FormButtons>
-                                        <Alert status={this.state.status} color={this.state.statusColor} />
-                                    </FormButtons>
-                                </React.Fragment>
-                            )}
+                            </FormActions>
+                            <FormStatus message={this.state.status} isBusy={this.state.isBusy} isError={this.state.isErrored} />
                         </Form>
                     </React.Fragment>
                 )}
@@ -155,12 +139,11 @@ class UploadFile extends Component<any, UploadFileState> {
                         <Button color="primary" long={true} onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}>{this.state.transactionHash}</Button>
                         <p>A public gateway for the file is linked below, the file may not be available immediately as it takes time to propogate through the IPFS network.</p>
                         <Button color="primary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
-                        <FormButtons>
-                            <Button color="secondary" onClick={() => this.resetState()}>Upload Another File</Button>
-                        </FormButtons>
+                        <br />
+                        <Button color="secondary" onClick={() => this.resetState()}>Upload Another File</Button>
                     </React.Fragment>
                 )}
-            </React.Fragment>
+            </LayoutAppSingle>
         );
     }
 
@@ -222,32 +205,38 @@ class UploadFile extends Component<any, UploadFileState> {
      * Upload the file to the API.
      */
     private async uploadFile(): Promise<void> {
-        this.setState({ isBusy: true, status: "" }, async () => {
-            const response = await this._apiClient.uploadFile({
-                name: this.state.fileName || "",
-                description: this.state.fileDescription || "",
-                size: this.state.fileSize || 0,
-                modified: (this.state.fileModified || new Date()).toISOString(),
-                sha256: this.state.fileSha256 || "",
-                data: (this.state.fileBuffer || Buffer.from("")).toString("base64")
-            });
+        this.setState(
+            {
+                isBusy: true,
+                status: "Uploading file, please wait...",
+                isErrored: false
+            },
+            async () => {
+                const response = await this._apiClient.uploadFile({
+                    name: this.state.fileName || "",
+                    description: this.state.fileDescription || "",
+                    size: this.state.fileSize || 0,
+                    modified: (this.state.fileModified || new Date()).toISOString(),
+                    sha256: this.state.fileSha256 || "",
+                    data: (this.state.fileBuffer || Buffer.from("")).toString("base64")
+                });
 
-            if (response.success) {
-                this.setState({
-                    isBusy: false,
-                    status: "",
-                    statusColor: "success",
-                    transactionHash: response.transactionHash,
-                    ipfsHash: response.ipfs
-                });
-            } else {
-                this.setState({
-                    isBusy: false,
-                    status: response.message,
-                    statusColor: "danger"
-                });
-            }
-        });
+                if (response.success) {
+                    this.setState({
+                        isBusy: false,
+                        status: "",
+                        isErrored: false,
+                        transactionHash: response.transactionHash,
+                        ipfsHash: response.ipfs
+                    });
+                } else {
+                    this.setState({
+                        isBusy: false,
+                        status: response.message,
+                        isErrored: true
+                    });
+                }
+            });
     }
 
     /**
@@ -258,8 +247,8 @@ class UploadFile extends Component<any, UploadFileState> {
             {
                 isBusy: false,
                 isValid: false,
+                isErrored: false,
                 status: "",
-                statusColor: "success",
                 fileName: "",
                 fileDescription: "",
                 fileSize: undefined,
@@ -269,7 +258,10 @@ class UploadFile extends Component<any, UploadFileState> {
                 transactionHash: "",
                 ipfsHash: ""
             },
-            () => this.validateData());
+            () => {
+                this.validateData();
+                ScrollHelper.scrollRoot();
+            });
     }
 }
 

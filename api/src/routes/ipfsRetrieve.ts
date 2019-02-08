@@ -9,6 +9,9 @@ import { ValidationHelper } from "../utils/validationHelper";
 
 /**
  * Ipfs retrieve command.
+ * @param config The configuration.
+ * @param request the request.
+ * @returns The response.
  */
 export async function ipfsRetrieve(config: IConfiguration, request: IIPFSRetrieveRequest): Promise<IIPFSRetrieveResponse> {
     try {

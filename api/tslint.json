@@ -325,7 +325,19 @@
         "typeof-compare": false,
         "no-dynamic-delete": false,
         "binary-expression-operand-order": false,
-        "valid-jsdoc": false,
+        "valid-jsdoc": [
+            true,
+            {
+                "requireParamType": false,
+                "prefer": {
+                    "return": "returns"
+                },
+                "requireReturn": false,
+                "requireReturnType": false,
+                "requireParamDescription": true,
+                "requireReturnDescription": true
+            }
+        ],
         "file-name-casing": false,
         "no-unused-variable": false,
         "jsx-no-multiline-js": false,
