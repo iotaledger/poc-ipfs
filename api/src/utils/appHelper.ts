@@ -74,7 +74,18 @@ export class AppHelper {
                     } else {
                         params = { ...params, ...req.query, ...req.body };
                     }
-                    console.log(`===> ${routes[i].method.toUpperCase()} ${routes[i].path}`, params);
+
+                    const filteredParams = {};
+                    const keys = Object.keys(params);
+                    for (let k = 0; k < keys.length; k++) {
+                        if (keys[k].indexOf("pass") < 0) {
+                            filteredParams[keys[k]] = params[keys[k]];
+                        } else {
+                            filteredParams[keys[k]] = "*************";
+                        }
+                    }
+
+                    console.log(`===> ${routes[i].method.toUpperCase()} ${routes[i].path}`, filteredParams);
                     if (routes[i].func) {
                         let modulePath = "../routes/";
                         if (routes[i].folder) {
