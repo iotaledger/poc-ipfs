@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { Button, Fieldset, Form, FormActions, FormStatus, Heading, LayoutAppSingle, ScrollHelper, Success } from "iota-react-components";
+import { Button, ClipboardHelper, Fieldset, Form, FormActions, FormStatus, Heading, ScrollHelper, Success } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { ServiceFactory } from "../../factories/serviceFactory";
 import { IConfiguration } from "../../models/config/IConfiguration";
@@ -60,7 +60,7 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
      */
     public render(): ReactNode {
         return (
-            <LayoutAppSingle>
+            <React.Fragment>
                 {!this.state.fileName && (
                     <React.Fragment>
                         <Heading level={1}>Retrieve File</Heading>
@@ -73,6 +73,7 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                                     placeholder="Please enter the transaction hash in trytes"
                                     value={this.state.transactionHash}
                                     onChange={(e) => this.setState({ transactionHash: e.target.value }, () => this.validateData())}
+                                    readOnly={this.state.isBusy}
                                 />
                             </Fieldset>
                             <FormActions>
@@ -131,7 +132,10 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                             <React.Fragment>
                                 <Success />
                                 <p>The file on IPFS has been successfully validated against the data on the Tangle, the file is linked below</p>
-                                <Button color="primary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
+                                <div>
+                                    <Button color="primary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
+                                    <Button color="secondary" onClick={() => ClipboardHelper.copy(this.state.ipfsHash)}>Copy IPFS Hash</Button>
+                                </div>
                             </React.Fragment>
                         )}
 
@@ -140,7 +144,7 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                         </FormActions>
                     </React.Fragment>
                 )}
-            </LayoutAppSingle>
+            </React.Fragment>
         );
     }
 

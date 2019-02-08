@@ -1,13 +1,18 @@
-import { AlertColor } from "iota-react-components";
+import { StatusMessageColor } from "iota-react-components";
 
 export interface AppState {
     /**
-     * The status to display in the alert.
+     * The status to display in the status message.
      */
     status: string;
 
     /**
-     * The color to display the alert.
+     * The color to display the status message.
      */
-    statusColor: AlertColor;
+    statusColor: StatusMessageColor;
+
+    /**
+     * Is the page busy.
+     */
+    isBusy: boolean;
 }

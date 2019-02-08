@@ -1,5 +1,5 @@
 import "iota-css-theme";
-import { Alert, Footer, Header } from "iota-react-components";
+import { Footer, Header, LayoutAppSingle, StatusMessage } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { Link, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import logo from "../assets/logo.svg";
@@ -25,6 +25,7 @@ class App extends Component<RouteComponentProps, AppState> {
         super(props);
 
         this.state = {
+            isBusy: true,
             status: "Loading Configuration...",
             statusColor: "info"
         };
@@ -44,11 +45,13 @@ class App extends Component<RouteComponentProps, AppState> {
             ServiceFactory.register("tangleExplorer", () => new TangleExplorerService(config.tangleExplorer));
 
             this.setState({
+                isBusy: false,
                 status: "",
                 statusColor: "success"
             });
         } catch (err) {
             this.setState({
+                isBusy: false,
                 status: err.message,
                 statusColor: "danger"
             });
@@ -68,13 +71,15 @@ class App extends Component<RouteComponentProps, AppState> {
                     <Link className="link" to="/retrieve">Retrieve File</Link>
                 </nav>
                 <section className="content">
-                    <Alert status={this.state.status} color={this.state.statusColor} />
-                    {!this.state.status && (
-                        <Switch>
-                            <Route exact={true} path="/" component={() => (<UploadFile hash={Date.now()} />)} />
-                            <Route exact={true} path="/retrieve" component={() => (<RetrieveFile hash={Date.now()} />)} />
-                        </Switch>
-                    )}
+                    <LayoutAppSingle>
+                        <StatusMessage status={this.state.status} color={this.state.statusColor} isBusy={this.state.isBusy} />
+                        {!this.state.status && (
+                            <Switch>
+                                <Route exact={true} path="/" component={() => (<UploadFile hash={Date.now()} />)} />
+                                <Route exact={true} path="/retrieve" component={() => (<RetrieveFile hash={Date.now()} />)} />
+                            </Switch>
+                        )}
+                    </LayoutAppSingle>
                 </section>
                 <Footer history={this.props.history} sections={contentHomePage.footerSections} staticContent={contentHomePage.footerStaticContent} />
             </React.Fragment>
