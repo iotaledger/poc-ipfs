@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import crypto from "crypto";
-import { Button, ClipboardHelper, Fieldset, Form, FormActions, FormStatus, Heading, ScrollHelper, Success } from "iota-react-components";
+import { Button, ButtonContainer, ClipboardHelper, Fieldset, Form, FormActions, FormStatus, Heading, ScrollHelper, Success } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { ServiceFactory } from "../../factories/serviceFactory";
 import { IConfiguration } from "../../models/config/IConfiguration";
@@ -133,20 +133,19 @@ class UploadFile extends Component<any, UploadFileState> {
                 {this.state.transactionHash && (
                     <React.Fragment>
                         <Heading level={1}>File Uploaded</Heading>
-                        <Success />
-                        <p>The file has successfully been added to the Tangle and IPFS.</p>
+                        <Success message="The file has successfully been added to the Tangle and IPFS."/>
                         <p>You can view the transaction on the Tangle here.</p>
-                        <div>
-                            <Button color="primary" long={true} onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}>{this.state.transactionHash}</Button>
+                        <ButtonContainer>
+                            <Button color="secondary" long={true} onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}>{this.state.transactionHash}</Button>
                             <Button color="secondary" onClick={() => ClipboardHelper.copy(this.state.transactionHash)}>Copy Tangle Hash</Button>
-                        </div>
+                        </ButtonContainer>
                         <p>A public gateway for the file is linked below, the file may not be available immediately as it takes time to propogate through the IPFS network.</p>
-                        <div>
-                            <Button color="primary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
+                        <ButtonContainer>
+                            <Button color="secondary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
                             <Button color="secondary" onClick={() => ClipboardHelper.copy(this.state.ipfsHash)}>Copy IPFS Hash</Button>
-                        </div>
+                        </ButtonContainer>
                         <br />
-                        <Button color="secondary" onClick={() => this.resetState()}>Upload Another File</Button>
+                        <Button color="primary" onClick={() => this.resetState()}>Upload Another File</Button>
                     </React.Fragment>
                 )}
             </React.Fragment>
