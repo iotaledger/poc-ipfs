@@ -14,4 +14,12 @@ export interface IIPFSConfiguration {
      * The port for the ipfs node.
      */
     port: string;
+    /**
+     * The api path for the ipfs node.
+     */
+    apiPath: string;
+    /**
+     * The token for the ipfs node.
+     */
+    token: string;
 }

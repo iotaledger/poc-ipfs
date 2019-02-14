@@ -2,7 +2,11 @@
 node_modules
 
 /api/src/data/config.dev.json
+/api/src/data/config.prod.json
+/api/src/data/config.staging.json
 /api/dist
 
 /client/public/data/config.dev.json
+/client/public/data/config.prod.json
+/client/public/data/config.staging.json
 /client/build

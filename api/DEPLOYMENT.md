@@ -10,11 +10,13 @@ To configure the `api` you should copy `./src/data/config.template.json` to `./s
     "depth": 3,                                      /* Depth to use for attaches */
     "mwm": 9,                                        /* MWM to use for attaches */
     "ipfs": {                                        /* IPFS Node with storage support */
-        "protocol": "MYIPFSNODE_PROTOCOL",
-        "host": "MYIPFSNODE_HOST",
-        "port": "MYIPFSNODE_PORT"
+        "protocol": "MYIPFSNODE_PROTOCOL",           /* e.g. https:// */
+        "host": "MYIPFSNODE_HOST",                   /* e.g. ipfs.mydomain.com */
+        "port": "MYIPFSNODE_PORT",                   /* e.g. 443 */
+        "apiPath": "MYIPFSNODE_APIPATH",             /* e.g. /api/v0/ */
+        "token": "MYIPFSNODE_TOKEN"                  /* Optional token passed in Authorization header */
     },
-    "seed": "TANGLE_SEED"                           /* seed used for address generation */
+    "seed": "TANGLE_SEED"                            /* seed used for address generation */
 }
 ```
 

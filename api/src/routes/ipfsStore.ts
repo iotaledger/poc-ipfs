@@ -46,11 +46,26 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             throw new Error(`The sha256 for the file is incorrect '${request.sha256}' was sent but it has been calculated as '${hex}'`);
         }
 
-        const ipfs = ipfsClient(config.ipfs);
+        const ipfsConfig = {
+            host: config.ipfs.host,
+            port: config.ipfs.port,
+            protocol: config.ipfs.protocol,
+            "api-path": config.ipfs.apiPath,
+            headers: undefined
+        };
+
+        if (config.ipfs.token) {
+            ipfsConfig.headers = {
+                Authorization: `Basic ${config.ipfs.token}`
+            };
+        }
+
+        const ipfs = ipfsClient(ipfsConfig);
 
         const addStart = Date.now();
         console.log(`Adding file ${request.name} to IPFS of length ${request.size}`);
         const addResponse = await ipfs.add(buffer);
+        console.log(addResponse);
         console.log(`Adding file ${request.name} complete in ${Date.now() - addStart}ms`);
 
         const iota = composeAPI({
@@ -91,6 +106,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             ipfs: tanglePayload.ipfs
         };
     } catch (err) {
+        console.log(err);
         return {
             success: false,
             message: err.toString()

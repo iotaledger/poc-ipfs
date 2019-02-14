@@ -19,7 +19,6 @@ export class ValidationHelper {
      * @param name The parameter name.
      */
     public static number(num: number, name: string): void {
-        console.log(typeof num);
         if (num === undefined || num === null || typeof num !== "number") {
             throw new Error(`The parameter '${name}' has an invalid value.`);
         }
