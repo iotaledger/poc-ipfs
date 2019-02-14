@@ -53,7 +53,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         const addResponse = await ipfs.add(buffer);
         console.log(`Adding file ${request.name} complete in ${Date.now() - addStart}ms`);
 
-        const iota: any = composeAPI({
+        const iota = composeAPI({
             provider: config.provider
         });
 

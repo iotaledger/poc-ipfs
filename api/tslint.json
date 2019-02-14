@@ -36,7 +36,7 @@
         "react-anchor-blank-noopener": true,
         "react-iframe-missing-sandbox": true,
         "react-no-dangerous-html": true,
-        "await-promise": true,
+        "await-promise": [true, "Bluebird"],
         "forin": false,
         "jquery-deferred-must-complete": true,
         "label-position": true,

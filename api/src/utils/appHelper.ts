@@ -1,5 +1,5 @@
 import bodyParser from "body-parser";
-import express from "express";
+import express, { Application } from "express";
 import { IDataResponse } from "../models/api/IDataResponse";
 import { IConfiguration } from "../models/IConfiguration";
 import { IRoute } from "../models/IRoute";
@@ -11,9 +11,11 @@ export class AppHelper {
     /**
      * Build the application from the routes and the configuration.
      * @param routes The routes to build the application with.
-     * @param listening Callback called when app is successfully listening.
+     * @param onComplete Callback called when app is successfully built.
+     * @param customListener If true uses a custom listener otherwise listens for you during build process.
+     * @returns The express js application.
      */
-    public static build(routes: IRoute[], listening?: (config: IConfiguration) => void): any {
+    public static build(routes: IRoute[], onComplete?: (app: Application, config: IConfiguration, port: number) => void, customListener?: boolean): Application {
         // tslint:disable:no-var-requires no-require-imports
         const packageJson = require("../../package.json");
         const configId = process.env.CONFIG_ID || "dev";
@@ -22,8 +24,7 @@ export class AppHelper {
 
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-        const port = process.env.PORT || 4000;
-        const app = express();
+        const app: Application = express();
 
         app.use(bodyParser.json({ limit: "10mb" }));
         app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
@@ -41,18 +42,27 @@ export class AppHelper {
 
         AppHelper.buildRoutes(config, app, routes);
 
-        app.listen(port, async err => {
-            if (err) {
-                throw err;
-            }
+        const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
+        if (!customListener) {
+            app.listen(port, async err => {
+                if (err) {
+                    throw err;
+                }
 
-            console.log(`Started API Server on port ${port} v${packageJson.version}`);
-            console.log(`Running Config '${configId}'`);
+                console.log(`Started API Server on port ${port} v${packageJson.version}`);
+                console.log(`Running Config '${configId}'`);
 
-            if (listening) {
-                listening(config);
+                if (onComplete) {
+                    onComplete(app, config, port);
+                }
+            });
+        } else {
+            if (onComplete) {
+                onComplete(app, config, port);
             }
-        });
+        }
+
+        return app;
     }
 
     /**
@@ -61,7 +71,7 @@ export class AppHelper {
      * @param app The expressjs app.
      * @param routes The routes.
      */
-    public static buildRoutes(config: IConfiguration, app: any, routes: IRoute[]): void {
+    public static buildRoutes(config: IConfiguration, app: Application, routes: IRoute[]): void {
         for (let i = 0; i < routes.length; i++) {
             app[routes[i].method](routes[i].path, async (req, res) => {
                 let response;
