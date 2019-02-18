@@ -1,5 +1,5 @@
 import "iota-css-theme";
-import { Footer, Header, LayoutAppSingle, StatusMessage } from "iota-react-components";
+import { Footer, Header, LayoutAppSingle, SideMenu, StatusMessage } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { Link, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import logo from "../assets/logo.svg";
@@ -27,7 +27,8 @@ class App extends Component<RouteComponentProps, AppState> {
         this.state = {
             isBusy: true,
             status: "Loading Configuration...",
-            statusColor: "info"
+            statusColor: "info",
+            isSideMenuOpen: false
         };
     }
 
@@ -65,11 +66,45 @@ class App extends Component<RouteComponentProps, AppState> {
     public render(): ReactNode {
         return (
             <React.Fragment>
-                <Header title="IOTA IPFS" topLinks={contentHomePage.headerTopLinks} logo={logo} compact={true} />
-                <nav>
+                <Header
+                    title="IOTA IPFS"
+                    topLinks={contentHomePage.headerTopLinks}
+                    logo={logo}
+                    compact={true}
+                    hamburgerClick={() => this.setState({ isSideMenuOpen: !this.state.isSideMenuOpen })}
+                    hamburgerMediaQuery="tablet-up-hidden"
+                />
+                <nav className="tablet-down-hidden">
                     <Link className="link" to="/">Upload File</Link>
                     <Link className="link" to="/retrieve">Retrieve File</Link>
                 </nav>
+                <SideMenu
+                    isMenuOpen={this.state.isSideMenuOpen}
+                    handleClose={() => this.setState({ isSideMenuOpen: false })}
+                    history={this.props.history}
+                    items={[
+                        {
+                            name: "IOTA IPFS",
+                            isExpanded: true,
+                            items: [
+                                {
+                                    items: [
+                                        {
+                                            name: "Upload File",
+                                            link: "/"
+                                        },
+                                        {
+                                            name: "Retrieve File",
+                                            link: "/retrieve"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]}
+                    selectedItemLink={this.props.location.pathname}
+                    mediaQuery="tablet-up-hidden"
+                />
                 <section className="content">
                     <LayoutAppSingle>
                         <StatusMessage status={this.state.status} color={this.state.statusColor} isBusy={this.state.isBusy} />

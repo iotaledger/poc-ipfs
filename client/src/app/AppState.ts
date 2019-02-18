@@ -15,4 +15,9 @@ export interface AppState {
      * Is the page busy.
      */
     isBusy: boolean;
+
+    /**
+     * Is the side menu open.
+     */
+    isSideMenuOpen: boolean;
 }
