@@ -18,7 +18,7 @@ export async function ipfsRetrieve(config: IConfiguration, request: IIPFSRetriev
         ValidationHelper.string(request.transactionHash, "transactionHash");
 
         const iota = composeAPI({
-            provider: config.provider
+            provider: config.node.provider
         });
 
         const transactions = await iota.getTrytes([request.transactionHash]);

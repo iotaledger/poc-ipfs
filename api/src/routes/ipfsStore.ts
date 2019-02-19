@@ -24,7 +24,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         ValidationHelper.string(request.sha256, "sha256");
         ValidationHelper.string(request.data, "data");
 
-        await IotaHelper.isNodeAvailable(config.provider, true);
+        await IotaHelper.isNodeAvailable(config.node.provider, true);
 
         const maxSize = 10240;
 
@@ -69,7 +69,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         console.log(`Adding file ${request.name} complete in ${Date.now() - addStart}ms`);
 
         const iota = composeAPI({
-            provider: config.provider
+            provider: config.node.provider
         });
 
         const nextAddress = generateAddress(config.seed, 0, 2);
@@ -96,7 +96,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
 
         const sendStart = Date.now();
         console.log(`Sending Trytes`);
-        const bundles = await iota.sendTrytes(trytes, config.depth, config.mwm);
+        const bundles = await iota.sendTrytes(trytes, config.node.depth, config.node.mwm);
         console.log(`Sending Trytes complete in ${Date.now() - sendStart}ms`);
 
         return {

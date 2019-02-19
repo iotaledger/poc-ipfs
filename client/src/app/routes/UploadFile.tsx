@@ -171,10 +171,9 @@ class UploadFile extends Component<any, UploadFileState> {
      * Open a document and get its details.
      */
     private chooseFile(): void {
-        const input: HTMLInputElement = window.document.createElement("input");
+        const input: HTMLInputElement = document.createElement("input");
         input.type = "file";
         input.accept = "";
-        input.click();
         input.onchange = () => {
             if (input.files && input.files.length > 0) {
                 const inputFile = input.files[0];
@@ -204,6 +203,7 @@ class UploadFile extends Component<any, UploadFileState> {
             } else {
             }
         };
+        input.click();
     }
 
     /**

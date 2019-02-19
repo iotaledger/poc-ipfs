@@ -38,7 +38,7 @@ class App extends Component<RouteComponentProps, AppState> {
     public async componentDidMount(): Promise<void> {
         try {
             const configService = new ConfigurationService<IConfiguration>();
-            const configId = process.env.CONFIG_ID || "dev";
+            const configId = process.env.CONFIG_ID || "local";
             const config = await configService.load(`/data/config.${configId}.json`);
 
             ServiceFactory.register("configuration", () => configService);

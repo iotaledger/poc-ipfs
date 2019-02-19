@@ -18,7 +18,7 @@ export class AppHelper {
     public static build(routes: IRoute[], onComplete?: (app: Application, config: IConfiguration, port: number) => void, customListener?: boolean): Application {
         // tslint:disable:no-var-requires no-require-imports
         const packageJson = require("../../package.json");
-        const configId = process.env.CONFIG_ID || "dev";
+        const configId = process.env.CONFIG_ID || "local";
         // tslint:disable-next-line:non-literal-require
         const config: IConfiguration = require(`../data/config.${configId}.json`);
 

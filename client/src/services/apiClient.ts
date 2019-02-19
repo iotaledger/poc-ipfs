@@ -19,10 +19,6 @@ export class ApiClient {
      */
     constructor(endpoint: string) {
         this._endpoint = endpoint;
-
-        if (window.location.hostname === "localhost") {
-            this._endpoint = "http://localhost:4000";
-        }
     }
 
     /**

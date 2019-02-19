@@ -1,4 +1,5 @@
 import { IIPFSConfiguration } from "./IIPFSConfiguration";
+import { INodeConfiguration } from "./INodeConfiguration";
 
 /**
  * Definition of configuration file.
@@ -7,17 +8,7 @@ export interface IConfiguration {
     /**
      * The provider to use for IOTA communication.
      */
-    provider: string;
-
-    /**
-     * Depth for attaches.
-     */
-    depth: number;
-
-    /**
-     * Minimunm weight magnitude for attaches.
-     */
-    mwm: number;
+    node: INodeConfiguration;
 
     /**
      * The IPFS configuration.
