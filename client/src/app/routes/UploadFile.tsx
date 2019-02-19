@@ -91,7 +91,7 @@ class UploadFile extends Component<any, UploadFileState> {
                                 <Button disabled={this.state.isBusy} onClick={() => this.chooseFile()}>Choose File</Button>
                             </Fieldset>
                             {this.state.fileSize !== undefined &&
-                                <Fieldset>
+                                <Fieldset small={true}>
                                     <label>Size</label>
                                     <span className={classNames({ danger: this.state.fileSize === 0 || this.state.fileSize > UploadFile.MAX_FILE_SIZE })}>
                                         {this.state.fileSize} bytes
@@ -101,13 +101,13 @@ class UploadFile extends Component<any, UploadFileState> {
                                 </Fieldset>
                             }
                             {this.state.fileModified &&
-                                <Fieldset>
+                                <Fieldset small={true}>
                                     <label>Modified Date</label>
                                     <span>{this.state.fileModified.toISOString()}</span>
                                 </Fieldset>
                             }
                             {this.state.fileSha256 &&
-                                <Fieldset>
+                                <Fieldset small={true}>
                                     <label>Sha256</label>
                                     <span>{this.state.fileSha256}</span>
                                 </Fieldset>

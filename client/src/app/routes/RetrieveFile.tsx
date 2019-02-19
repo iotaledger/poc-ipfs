@@ -88,38 +88,38 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                         <Heading level={1}>File Validated</Heading>
                         <p>The file data has successfully been retrieved from the Tangle.</p>
                         <Form>
-                            <Fieldset>
+                            <Fieldset small={true}>
                                 <label>Name</label>
                                 <span>{this.state.fileName}</span>
                             </Fieldset>
-                            <Fieldset>
+                            <Fieldset small={true}>
                                 <label>Description</label>
                                 <span>{this.state.fileDescription}</span>
                             </Fieldset>
-                            <Fieldset>
+                            <Fieldset small={true}>
                                 <label>Size</label>
                                 <span>
                                     {this.state.fileSize} bytes
                                 </span>
                             </Fieldset>
                             {this.state.fileModified && (
-                                <Fieldset>
+                                <Fieldset small={true}>
                                     <label>Modified Date</label>
                                     <span>{this.state.fileModified.toISOString()}</span>
                                 </Fieldset>
                             )}
-                            <Fieldset>
+                            <Fieldset small={true}>
                                 <label>Sha256</label>
                                 <span>{this.state.fileSha256}</span>
                             </Fieldset>
                             {this.state.ipfsHash && (
-                                <Fieldset>
+                                <Fieldset small={true}>
                                     <label>IPFS Hash</label>
                                     <span>{this.state.ipfsHash}</span>
                                 </Fieldset>
                             )}
                             {this.state.ipfsSha256 && (
-                                <Fieldset>
+                                <Fieldset small={true}>
                                     <label>IPFS Sha256</label>
                                     <span>{this.state.ipfsSha256}</span>
                                 </Fieldset>
@@ -131,6 +131,7 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                         {this.state.fileBuffer && (
                             <React.Fragment>
                                 <Success message="The file on IPFS has been successfully validated against the data on the Tangle, the file is linked below:" />
+                                <br />
                                 <div>
                                     <Button color="secondary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
                                     <Button color="secondary" onClick={() => ClipboardHelper.copy(this.state.ipfsHash)}>Copy IPFS Hash</Button>
