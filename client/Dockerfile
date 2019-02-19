@@ -12,6 +12,7 @@ ARG CONFIG_ID
 ARG GITHUB_TOKEN
 RUN echo "CONFIG_ID=$CONFIG_ID"
 RUN echo "GITHUB_TOKEN=$GITHUB_TOKEN"
+ENV REACT_APP_CONFIG_ID=$CONFIG_ID
 
 # We are npm installing from private repos so we need github token with access
 RUN git config --global url."https://${GITHUB_TOKEN}:@github.com/".insteadOf "https://github.com/"
@@ -25,7 +26,7 @@ RUN npm run build
 RUN apk del git
 RUN rm -rf node_modules
 
-EXPOSE 3001:3001
+EXPOSE 4001:4001
 
 # Serve the prod build from the build folder
-CMD ["serve", "-s", "build", "-p", "3001"]
+CMD ["serve", "-s", "build", "-p", "4001"]
