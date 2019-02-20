@@ -16,6 +16,7 @@ import { ValidationHelper } from "../utils/validationHelper";
  * @returns The response.
  */
 export async function ipfsStore(config: IConfiguration, request: IIPFSStoreRequest): Promise<IIPFSStoreResponse> {
+    let log;
     try {
         ValidationHelper.string(request.name, "name");
         ValidationHelper.string(request.description, "description");
@@ -65,10 +66,10 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         const ipfs = ipfsClient(ipfsConfig);
 
         const addStart = Date.now();
-        console.log(`Adding file ${request.name} to IPFS of length ${request.size}`);
+        log = `Adding file ${request.name} to IPFS of length ${request.size}`;
         const addResponse = await ipfs.add(buffer);
-        console.log(addResponse);
-        console.log(`Adding file ${request.name} complete in ${Date.now() - addStart}ms`);
+        log += addResponse;
+        log += `Adding file ${request.name} complete in ${Date.now() - addStart}ms`;
 
         const iota = composeAPI({
             provider: config.node.provider
@@ -85,7 +86,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             ipfs: addResponse[0].hash
         };
 
-        console.log(`Prepare Transfer`);
+        log += `Prepare Transfer`;
         const trytes = await iota.prepareTransfers(
             "9".repeat(81),
             [
@@ -97,9 +98,9 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             ]);
 
         const sendStart = Date.now();
-        console.log(`Sending Trytes`);
+        log += `Sending Trytes`;
         const bundles = await iota.sendTrytes(trytes, config.node.depth, config.node.mwm);
-        console.log(`Sending Trytes complete in ${Date.now() - sendStart}ms`);
+        log += `Sending Trytes complete in ${Date.now() - sendStart}ms`;
 
         return {
             success: true,
@@ -110,7 +111,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
     } catch (err) {
         return {
             success: false,
-            message: err.toString()
+            message: `${err.toString()}\n${err.stack}\n${log}`
         };
     }
 }
