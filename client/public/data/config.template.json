@@ -2,7 +2,7 @@
     "apiEndpoint": "ENDPOINT",
     "ipfsGateway": "https://ipfs.io/ipfs/:hash",
     "tangleExplorer": {
-        "transactions": "https://thetangle.org/transaction/:transactionHash",
-        "bundles": "https://thetangle.org/bundle/:bundleHash"
+        "transactions": "https://devnet.thetangle.org/transaction/:transactionHash",
+        "bundles": "https://devnet.thetangle.org/bundle/:bundleHash"
     }
 }
