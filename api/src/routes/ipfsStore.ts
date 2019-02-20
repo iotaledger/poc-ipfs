@@ -48,8 +48,6 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
 
         const parts = /(https):\/\/(.*):(\d*)(.*)/.exec(config.ipfs.provider);
 
-        console.log(parts);
-
         const ipfsConfig = {
             protocol: parts[1],
             host: parts[2],
@@ -110,7 +108,6 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             ipfs: tanglePayload.ipfs
         };
     } catch (err) {
-        console.log(err);
         return {
             success: false,
             message: err.toString()
