@@ -1,5 +1,5 @@
 {
-    "name": "poc-ipfs-api",
+    "name": "iota-poc-ipfs-api",
     "description": "API for IOTA IPFS",
     "version": "0.1.0",
     "author": "Martyn Janes <martyn.janes@iota.org>",
