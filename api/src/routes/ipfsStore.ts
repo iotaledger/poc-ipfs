@@ -16,7 +16,7 @@ import { ValidationHelper } from "../utils/validationHelper";
  * @returns The response.
  */
 export async function ipfsStore(config: IConfiguration, request: IIPFSStoreRequest): Promise<IIPFSStoreResponse> {
-    let log;
+    let log = "ipfsStore";
     try {
         ValidationHelper.string(request.name, "name");
         ValidationHelper.string(request.description, "description");
@@ -24,6 +24,8 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         ValidationHelper.string(request.modified, "modified");
         ValidationHelper.string(request.sha256, "sha256");
         ValidationHelper.string(request.data, "data");
+
+        log += "IotaHelper.isNodeAvailable\n";
 
         await IotaHelper.isNodeAvailable(config.node.provider, true);
 
@@ -47,7 +49,11 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             throw new Error(`The sha256 for the file is incorrect '${request.sha256}' was sent but it has been calculated as '${hex}'`);
         }
 
+        log += `${config.ipfs.provider}\n`;
+
         const parts = /(https):\/\/(.*):(\d*)(.*)/.exec(config.ipfs.provider);
+
+        log += `${parts}\n`;
 
         const ipfsConfig = {
             protocol: parts[1],
@@ -62,6 +68,9 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
                 Authorization: `Basic ${config.ipfs.token}`
             };
         }
+
+        log += `ipfsConfig: ${ipfsConfig}\n`;
+        log += `config.node.provider: ${config.node.provider}\n`;
 
         const ipfs = ipfsClient(ipfsConfig);
 
