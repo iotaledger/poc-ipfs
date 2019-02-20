@@ -5,10 +5,7 @@
         "mwm": 9
     },
     "ipfs": {
-        "protocol": "MYIPFSNODE_PROTOCOL",
-        "host": "MYIPFSNODE_HOST",
-        "port": "MYIPFSNODE_PORT",
-        "apiPath": "MYIPFSNODE_APIPATH",
+        "provider": "MYIPFSNODE_PROVIDER",
         "token": "MYIPFSNODE_TOKEN"
     },
     "seed": "TANGLE_SEED"

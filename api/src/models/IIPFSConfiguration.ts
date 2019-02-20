@@ -3,21 +3,9 @@
  */
 export interface IIPFSConfiguration {
     /**
-     * The protocol for the ipfs node.
+     * The provider for the ipfs node.
      */
-    protocol: string;
-    /**
-     * The host for the ipfs node.
-     */
-    host: string;
-    /**
-     * The port for the ipfs node.
-     */
-    port: string;
-    /**
-     * The api path for the ipfs node.
-     */
-    apiPath: string;
+    provider: string;
     /**
      * The token for the ipfs node.
      */

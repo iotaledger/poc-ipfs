@@ -46,11 +46,15 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             throw new Error(`The sha256 for the file is incorrect '${request.sha256}' was sent but it has been calculated as '${hex}'`);
         }
 
+        const parts = /(https):\/\/(.*):(\d*)(.*)/.exec(config.ipfs.provider);
+
+        console.log(parts);
+
         const ipfsConfig = {
-            host: config.ipfs.host,
-            port: config.ipfs.port,
-            protocol: config.ipfs.protocol,
-            "api-path": config.ipfs.apiPath,
+            protocol: parts[1],
+            host: parts[2],
+            port: parts[3],
+            "api-path": parts[4],
             headers: undefined
         };
 
