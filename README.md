@@ -18,5 +18,5 @@ See [./client/README.md](./client/README.md) for more details.
 
 A demonstration version of the application is currently deployed at the following urls
 
-* client - <https://iota-poc-ipfs-client.dag.sh>
-* api - <https://iota-poc-ipfs-api.dag.sh>
+* client - <https://ipfs.iota.org>
+* api - <https://ipfs-api.iota.org>

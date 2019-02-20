@@ -6,7 +6,7 @@ You should copy `./public/data/config.template.json` to `./public/data/config.de
 
 ```js
 {
-    "apiEndpoint": "ENDPOINT",                  /* The url of the api endpoint e.g. https://api.my-domain.com */
+    "apiEndpoint": "ENDPOINT",                   /* The url of the api endpoint e.g. https://api.my-domain.com */
     "ipfsGateway": "https://ipfs.io/ipfs/:hash", /* Url of an IPFS gateway for viewing files */
     "tangleExplorer": {
         "transactions": "https://thetangle.org/transaction/:transactionHash",
