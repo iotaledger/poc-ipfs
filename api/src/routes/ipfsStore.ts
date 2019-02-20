@@ -75,7 +75,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         const ipfs = ipfsClient(ipfsConfig);
 
         const addStart = Date.now();
-        log = `Adding file ${request.name} to IPFS of length ${request.size}`;
+        log += `Adding file ${request.name} to IPFS of length ${request.size}`;
         const addResponse = await ipfs.add(buffer);
         log += addResponse;
         log += `Adding file ${request.name} complete in ${Date.now() - addStart}ms`;
