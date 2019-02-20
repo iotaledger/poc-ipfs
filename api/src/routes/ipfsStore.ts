@@ -16,7 +16,6 @@ import { ValidationHelper } from "../utils/validationHelper";
  * @returns The response.
  */
 export async function ipfsStore(config: IConfiguration, request: IIPFSStoreRequest): Promise<IIPFSStoreResponse> {
-    let log = "ipfsStore";
     try {
         ValidationHelper.string(request.name, "name");
         ValidationHelper.string(request.description, "description");
@@ -24,8 +23,6 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         ValidationHelper.string(request.modified, "modified");
         ValidationHelper.string(request.sha256, "sha256");
         ValidationHelper.string(request.data, "data");
-
-        log += "IotaHelper.isNodeAvailable\n";
 
         await IotaHelper.isNodeAvailable(config.node.provider, true);
 
@@ -49,11 +46,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             throw new Error(`The sha256 for the file is incorrect '${request.sha256}' was sent but it has been calculated as '${hex}'`);
         }
 
-        log += `${config.ipfs.provider}\n`;
-
         const parts = /(https):\/\/(.*):(\d*)(.*)/.exec(config.ipfs.provider);
-
-        log += `${parts}\n`;
 
         const ipfsConfig = {
             protocol: parts[1],
@@ -69,16 +62,13 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             };
         }
 
-        log += `ipfsConfig: ${ipfsConfig}\n`;
-        log += `config.node.provider: ${config.node.provider}\n`;
-
         const ipfs = ipfsClient(ipfsConfig);
 
         const addStart = Date.now();
-        log += `Adding file ${request.name} to IPFS of length ${request.size}`;
+        console.log(`Adding file ${request.name} to IPFS of length ${request.size}`);
         const addResponse = await ipfs.add(buffer);
-        log += addResponse;
-        log += `Adding file ${request.name} complete in ${Date.now() - addStart}ms`;
+        console.log(addResponse);
+        console.log(`Adding file ${request.name} complete in ${Date.now() - addStart}ms`);
 
         const iota = composeAPI({
             provider: config.node.provider
@@ -95,7 +85,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             ipfs: addResponse[0].hash
         };
 
-        log += `Prepare Transfer`;
+        console.log(`Prepare Transfer`);
         const trytes = await iota.prepareTransfers(
             "9".repeat(81),
             [
@@ -107,9 +97,9 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             ]);
 
         const sendStart = Date.now();
-        log += `Sending Trytes`;
+        console.log(`Sending Trytes`);
         const bundles = await iota.sendTrytes(trytes, config.node.depth, config.node.mwm);
-        log += `Sending Trytes complete in ${Date.now() - sendStart}ms`;
+        console.log(`Sending Trytes complete in ${Date.now() - sendStart}ms`);
 
         return {
             success: true,
@@ -120,7 +110,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
     } catch (err) {
         return {
             success: false,
-            message: `${err.toString()}\n${err.stack}\n${log}`
+            message: err.toString()
         };
     }
 }
