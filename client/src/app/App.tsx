@@ -119,7 +119,7 @@ class App extends Component<RouteComponentProps, AppState> {
                             <Switch>
                                 <Route exact={true} path="/" component={() => (<UploadFile hash={Date.now()} />)} />
                                 <Route exact={true} path="/retrieve" component={() => (<RetrieveFile hash={Date.now()} />)} />
-                            </Switch>
+                        </Switch>
                         )}
                     </LayoutAppSingle>
                 </section>
