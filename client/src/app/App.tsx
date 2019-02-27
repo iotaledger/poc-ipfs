@@ -1,5 +1,5 @@
 import "iota-css-theme";
-import { Footer, Header, LayoutAppSingle, SideMenu, StatusMessage } from "iota-react-components";
+import { Footer, GoogleAnalytics, Header, LayoutAppSingle, SideMenu, StatusMessage } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { Link, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import logo from "../assets/logo.svg";
@@ -17,6 +17,11 @@ import UploadFile from "./routes/UploadFile";
  * Main application class.
  */
 class App extends Component<RouteComponentProps, AppState> {
+    /**
+     * The configuration for the app.
+     */
+    private _configuration?: IConfiguration;
+
     /**
      * Create a new instance of App.
      * @param props The props.
@@ -44,6 +49,8 @@ class App extends Component<RouteComponentProps, AppState> {
             ServiceFactory.register("configuration", () => configService);
             ServiceFactory.register("ipfs", () => new IpfsService(config.ipfsGateway));
             ServiceFactory.register("tangleExplorer", () => new TangleExplorerService(config.tangleExplorer));
+
+            this._configuration = config;
 
             this.setState({
                 isBusy: false,
@@ -117,6 +124,7 @@ class App extends Component<RouteComponentProps, AppState> {
                     </LayoutAppSingle>
                 </section>
                 <Footer history={this.props.history} sections={contentHomePage.footerSections} staticContent={contentHomePage.footerStaticContent} />
+                <GoogleAnalytics id={this._configuration && this._configuration.googleAnalyticsId} />
             </React.Fragment>
         );
     }

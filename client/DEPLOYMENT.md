@@ -11,7 +11,8 @@ You should copy `./public/data/config.template.json` to `./public/data/config.de
     "tangleExplorer": {
         "transactions": "https://thetangle.org/transaction/:transactionHash",
         "bundles": "https://thetangle.org/bundle/:bundleHash"
-    }
+    },
+    "googleAnalyticsId": "GOOGLE-ANALYTICS-ID"   /* Optional, google analytics id */
 }
 ```
 

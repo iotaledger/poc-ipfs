@@ -15,4 +15,9 @@ export interface IConfiguration {
      * The tangle explorer configuration.
      */
     tangleExplorer: ITangleExplorerConfiguration;
+
+    /**
+     * The google analytics id.
+     */
+    googleAnalyticsId: string;
 }
