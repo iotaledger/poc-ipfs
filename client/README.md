@@ -22,4 +22,4 @@ See [./DEPLOYMENT.md](./DEPLOYMENT.md) for more details.
 
 ## Demonstration
 
-There is a demonstration available to view at <https://iota-poc-ipfs.dag.sh>
+There is a demonstration available to view at <https://ipfs.iota.org>
