@@ -1,5 +1,8 @@
 # IOTA IPFS
 
+This package is an implementation of the Tangle and Data Storage Blueprint [https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview](https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview)
+
+
 The IOTA IPFS Demonstration is composed of 2 packages `api` and `client`.
 
 ## API
