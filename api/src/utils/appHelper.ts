@@ -51,6 +51,7 @@ export class AppHelper {
 
                 console.log(`Started API Server on port ${port} v${packageJson.version}`);
                 console.log(`Running Config '${configId}'`);
+                console.log(config);
 
                 if (onComplete) {
                     onComplete(app, config, port);
