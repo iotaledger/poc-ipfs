@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1.0
+## v1.1.1
 
 * Increased storage size to 5Mb
 
