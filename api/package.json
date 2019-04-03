@@ -1,7 +1,7 @@
 {
     "name": "iota-poc-ipfs-api",
     "description": "API for IOTA IPFS",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "author": "Martyn Janes <martyn.janes@iota.org>",
     "repository": {
         "type": "git",
@@ -29,7 +29,8 @@
         "axios": "^0.18.0",
         "body-parser": "^1.18.3",
         "express": "^4.16.4",
-        "ipfs-http-client": "^29.1.1"
+        "ipfs-http-client": "^29.1.1",
+        "sha3": "^2.0.1"
     },
     "devDependencies": {
         "@types/express": "^4.16.1",

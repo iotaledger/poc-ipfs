@@ -43,7 +43,12 @@ export interface UploadFileState {
     /**
      * The hash of the file.
      */
-    fileSha256?: string;
+    fileAlgorithm: string;
+
+    /**
+     * The hash of the file.
+     */
+    fileHash?: string;
 
     /**
      * File buffer.

@@ -2,6 +2,7 @@ import { composeAPI, generateAddress } from "@iota/core";
 import { asTransactionTrytes } from "@iota/transaction-converter";
 import crypto from "crypto";
 import ipfsClient from "ipfs-http-client";
+import { SHA3 } from "sha3";
 import { IIPFSStoreRequest } from "../models/api/IIPFSStoreRequest";
 import { IIPFSStoreResponse } from "../models/api/IIPFSStoreResponse";
 import { IConfiguration } from "../models/IConfiguration";
@@ -25,12 +26,13 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         ValidationHelper.string(request.description, "description");
         ValidationHelper.number(request.size, "size");
         ValidationHelper.string(request.modified, "modified");
-        ValidationHelper.string(request.sha256, "sha256");
+        ValidationHelper.string(request.algorithm, "algorithm");
+        ValidationHelper.string(request.hash, "hash");
         ValidationHelper.string(request.data, "data");
 
         await IotaHelper.isNodeAvailable(config.node.provider, true);
 
-        const maxSize = 5 * 1048576;
+        const maxSize = 1 * 1048576;
 
         const buffer = Buffer.from(request.data, "base64");
 
@@ -42,12 +44,20 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             throw new Error(`The file must be greater than 0 bytes in length.`);
         }
 
-        const sha256 = crypto.createHash("sha256");
-        sha256.update(buffer);
-        const hex = sha256.digest("hex");
+        let hex;
 
-        if (hex !== request.sha256) {
-            throw new Error(`The sha256 for the file is incorrect '${request.sha256}' was sent but it has been calculated as '${hex}'`);
+        if (request.algorithm === "sha256") {
+            const hashAlgo = crypto.createHash(request.algorithm);
+            hashAlgo.update(buffer);
+            hex = hashAlgo.digest("hex");
+        } else if (request.algorithm === "sha3") {
+            const hashAlgo = new SHA3(256);
+            hashAlgo.update(buffer);
+            hex = hashAlgo.digest("hex");
+        }
+
+        if (hex !== request.hash) {
+            throw new Error(`The hash for the file is incorrect '${request.hash}' was sent but it has been calculated as '${hex}'`);
         }
 
         const parts = /(https):\/\/(.*):(\d*)(.*)/.exec(config.ipfs.provider);
@@ -100,7 +110,8 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             description: request.description,
             size: request.size,
             modified: request.modified,
-            sha256: request.sha256,
+            algorithm: request.algorithm,
+            hash: request.hash,
             ipfs: addResponse[0].hash
         };
 

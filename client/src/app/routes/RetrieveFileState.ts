@@ -46,14 +46,19 @@ export interface RetrieveFileState {
     fileModified?: Date;
 
     /**
+     * The hash algorithm of the file.
+     */
+    fileAlgorithm?: string;
+
+    /**
      * The hash of the file.
      */
-    fileSha256?: string;
+    fileHash?: string;
 
     /**
      * The ipfs hash of the file.
      */
-    ipfsSha256?: string;
+    ipfsFileHash?: string;
 
     /**
      * File buffer.

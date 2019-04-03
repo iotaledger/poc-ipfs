@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.0
+
+* Added hash algorithm
+
 ## v1.1.1
 
 * Added transaction/bundle caching layer

@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { Button, ClipboardHelper, Fieldset, Form, FormActions, FormStatus, Heading, ScrollHelper, Success } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
+import { SHA3 } from "sha3";
 import { ServiceFactory } from "../../factories/serviceFactory";
 import { IConfiguration } from "../../models/config/IConfiguration";
 import { ApiClient } from "../../services/apiClient";
@@ -47,7 +48,8 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
             fileDescription: "",
             fileSize: undefined,
             fileModified: undefined,
-            fileSha256: "",
+            fileAlgorithm: undefined,
+            fileHash: "",
             fileBuffer: undefined,
             transactionHash: "",
             ipfsHash: ""
@@ -109,8 +111,12 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                                 </Fieldset>
                             )}
                             <Fieldset small={true}>
-                                <label>Sha256</label>
-                                <span>{this.state.fileSha256}</span>
+                                <label>Algorithm</label>
+                                <span>{this.state.fileAlgorithm}</span>
+                            </Fieldset>
+                            <Fieldset small={true}>
+                                <label>Hash</label>
+                                <span>{this.state.fileHash}</span>
                             </Fieldset>
                             {this.state.ipfsHash && (
                                 <Fieldset small={true}>
@@ -118,10 +124,10 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                                     <span>{this.state.ipfsHash}</span>
                                 </Fieldset>
                             )}
-                            {this.state.ipfsSha256 && (
+                            {this.state.ipfsFileHash && (
                                 <Fieldset small={true}>
-                                    <label>IPFS Sha256</label>
-                                    <span>{this.state.ipfsSha256}</span>
+                                    <label>IPFS File Hash</label>
+                                    <span>{this.state.ipfsFileHash}</span>
                                 </Fieldset>
                             )}
                         </Form>
@@ -183,30 +189,37 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                             fileSize: response.size,
                             fileModified: response.modified ? new Date(response.modified) : new Date(0),
                             fileDescription: response.description,
-                            fileSha256: response.sha256,
+                            fileAlgorithm: response.algorithm,
+                            fileHash: response.hash,
                             ipfsHash: response.ipfs
                         },
                         async () => {
-                            let ipfsSha256;
+                            let ipfsFileHash;
                             try {
                                 if (response.ipfs) {
                                     const buffer = await this._ipfsService.getFile(response.ipfs);
 
-                                    if (buffer) {
-                                        const sha256 = crypto.createHash("sha256");
-                                        sha256.update(buffer);
-                                        ipfsSha256 = sha256.digest("hex");
+                                    if (buffer && response.algorithm) {
+                                        if (response.algorithm === "sha256") {
+                                            const hashAlgo = crypto.createHash(response.algorithm);
+                                            hashAlgo.update(buffer);
+                                            ipfsFileHash = hashAlgo.digest("hex");
+                                        } else {
+                                            const hashAlgo = new SHA3(256);
+                                            hashAlgo.update(buffer);
+                                            ipfsFileHash = hashAlgo.digest("hex");
+                                        }
 
-                                        if (ipfsSha256 === response.sha256) {
+                                        if (ipfsFileHash === response.hash) {
                                             this.setState({
                                                 isBusy: false,
                                                 status: "",
                                                 isErrored: false,
                                                 fileBuffer: buffer,
-                                                ipfsSha256
+                                                ipfsFileHash: ipfsFileHash
                                             });
                                         } else {
-                                            throw new Error("The Sha256 hash of the file loaded from IPFS does not match the data stored on the Tangle");
+                                            throw new Error("The hash of the file loaded from IPFS does not match the data stored on the Tangle");
                                         }
                                     } else {
                                         throw new Error("Could not load file from IPFS");
@@ -219,7 +232,7 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                                     isBusy: false,
                                     status: err.message,
                                     isErrored: true,
-                                    ipfsSha256
+                                    ipfsFileHash: ipfsFileHash
                                 });
                             }
                         });
@@ -247,7 +260,8 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
                 fileDescription: "",
                 fileSize: undefined,
                 fileModified: undefined,
-                fileSha256: "",
+                fileAlgorithm: undefined,
+                fileHash: "",
                 fileBuffer: undefined,
                 transactionHash: "",
                 ipfsHash: ""

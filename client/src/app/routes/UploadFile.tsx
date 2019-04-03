@@ -2,6 +2,7 @@ import classNames from "classnames";
 import crypto from "crypto";
 import { Button, ButtonContainer, ClipboardHelper, Fieldset, Form, FormActions, FormStatus, Heading, ScrollHelper, Success } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
+import { SHA3 } from "sha3";
 import { ServiceFactory } from "../../factories/serviceFactory";
 import { IConfiguration } from "../../models/config/IConfiguration";
 import { ApiClient } from "../../services/apiClient";
@@ -17,7 +18,7 @@ class UploadFile extends Component<any, UploadFileState> {
     /**
      * The maximum file size we want to accept.
      */
-    private static readonly MAX_FILE_SIZE: number = 5 * 1048576;
+    private static readonly MAX_FILE_SIZE: number = 1 * 1048576;
 
     /**
      * The configuration.
@@ -60,7 +61,8 @@ class UploadFile extends Component<any, UploadFileState> {
             fileDescription: "",
             fileSize: undefined,
             fileModified: undefined,
-            fileSha256: "",
+            fileAlgorithm: "sha3",
+            fileHash: "",
             fileBuffer: undefined,
             transactionHash: "",
             ipfsHash: ""
@@ -106,11 +108,32 @@ class UploadFile extends Component<any, UploadFileState> {
                                     <span>{this.state.fileModified.toISOString()}</span>
                                 </Fieldset>
                             }
-                            {this.state.fileSha256 &&
-                                <Fieldset small={true}>
-                                    <label>Sha256</label>
-                                    <span>{this.state.fileSha256}</span>
-                                </Fieldset>
+                            {this.state.fileHash &&
+                                <React.Fragment>
+                                    <Fieldset small={true}>
+                                        <label>Algorithm</label>
+                                        <span>
+                                            <Button
+                                                size="small"
+                                                color={this.state.fileAlgorithm === "sha3" ? "primary" : "secondary"}
+                                                onClick={() => this.setAlgorithm("sha3")}
+                                            >
+                                                SHA3
+                                            </Button>
+                                            <Button
+                                                size="small"
+                                                color={this.state.fileAlgorithm === "sha256" ? "primary" : "secondary"}
+                                                onClick={() => this.setAlgorithm("sha256")}
+                                            >
+                                                SHA256
+                                            </Button>
+                                        </span>
+                                    </Fieldset>
+                                    <Fieldset small={true}>
+                                        <label>Hash</label>
+                                        <span>{this.state.fileHash}</span>
+                                    </Fieldset>
+                                </React.Fragment>
                             }
                             <Fieldset>
                                 <label>Description</label>
@@ -133,7 +156,7 @@ class UploadFile extends Component<any, UploadFileState> {
                 {this.state.transactionHash && (
                     <React.Fragment>
                         <Heading level={1}>File Uploaded</Heading>
-                        <Success message="The file has successfully been added to the Tangle and IPFS."/>
+                        <Success message="The file has successfully been added to the Tangle and IPFS." />
                         <p>You can view the transaction on the Tangle here.</p>
                         <ButtonContainer>
                             <Button color="secondary" long={true} onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}>{this.state.transactionHash}</Button>
@@ -183,18 +206,17 @@ class UploadFile extends Component<any, UploadFileState> {
                         if (fileReader.result) {
                             const buffer = Buffer.from(fileReader.result as ArrayBuffer);
 
-                            const sha256 = crypto.createHash("sha256");
-                            sha256.update(buffer);
-
                             this.setState(
                                 {
                                     fileName: inputFile.name,
                                     fileSize: inputFile.size,
                                     fileModified: new Date(inputFile.lastModified),
-                                    fileSha256: sha256.digest("hex"),
                                     fileBuffer: buffer
                                 },
-                                () => this.validateData());
+                                () => {
+                                    this.setAlgorithm(this.state.fileAlgorithm || "sha256");
+                                    this.validateData();
+                                });
                         }
                     };
                     fileReader.readAsArrayBuffer(input.files[0]);
@@ -222,7 +244,8 @@ class UploadFile extends Component<any, UploadFileState> {
                     description: this.state.fileDescription || "",
                     size: this.state.fileSize || 0,
                     modified: (this.state.fileModified || new Date()).toISOString(),
-                    sha256: this.state.fileSha256 || "",
+                    algorithm: this.state.fileAlgorithm,
+                    hash: this.state.fileHash || "",
                     data: (this.state.fileBuffer || Buffer.from("")).toString("base64")
                 });
 
@@ -258,7 +281,7 @@ class UploadFile extends Component<any, UploadFileState> {
                 fileDescription: "",
                 fileSize: undefined,
                 fileModified: undefined,
-                fileSha256: "",
+                fileHash: "",
                 fileBuffer: undefined,
                 transactionHash: "",
                 ipfsHash: ""
@@ -267,6 +290,31 @@ class UploadFile extends Component<any, UploadFileState> {
                 this.validateData();
                 ScrollHelper.scrollRoot();
             });
+    }
+
+    /**
+     * Set the hash algorithm
+     * @param algo The algorithm
+     */
+    private setAlgorithm(algo: string): void {
+        if (this.state.fileBuffer) {
+            let finalHash;
+
+            if (algo === "sha256") {
+                const hashAlgo = crypto.createHash(algo);
+                hashAlgo.update(this.state.fileBuffer);
+                finalHash = hashAlgo.digest("hex");
+            } else {
+                const hashAlgo = new SHA3(256);
+                hashAlgo.update(this.state.fileBuffer);
+                finalHash = hashAlgo.digest("hex");
+            }
+
+            this.setState({
+                fileAlgorithm: algo,
+                fileHash: finalHash
+            });
+        }
     }
 }
 

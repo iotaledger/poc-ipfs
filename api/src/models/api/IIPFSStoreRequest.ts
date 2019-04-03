@@ -20,9 +20,14 @@ export interface IIPFSStoreRequest {
     modified: string;
 
     /**
-     * The sha256 hash of the file to store.
+     * The hash algorithm of the file to store.
      */
-    sha256: string;
+    algorithm: string;
+
+    /**
+     * The hash of the file to store.
+     */
+    hash: string;
 
     /**
      * The data of the file to store in base64.

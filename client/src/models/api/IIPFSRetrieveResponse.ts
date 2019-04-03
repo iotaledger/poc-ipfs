@@ -23,9 +23,14 @@ export interface IIPFSRetrieveResponse extends IResponse {
     modified?: string;
 
     /**
-     * The sha256 hash of the file to store.
+     * The hash algorithm of the file to store.
      */
-    sha256?: string;
+    algorithm?: string;
+
+    /**
+     * The hash of the file to store.
+     */
+    hash?: string;
 
     /**
      * The hash for the ipfs item.
