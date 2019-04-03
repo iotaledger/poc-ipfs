@@ -15,7 +15,12 @@ To configure the `api` you should copy `./src/data/config.template.json` to `./s
         "provider": "MYIPFSNODE_PROVIDER",           /* e.g. https://ipfs.mydomain.com:443/api/v0/ */
         "token": "MYIPFSNODE_TOKEN"                  /* Optional token passed in Authorization header */
     },
-    "seed": "TANGLE_SEED"                            /* seed used for address generation */
+    "dynamoDbConnection": {
+        "region": "AWS-REGION",                      /* AWS Region e.g. eu-central-1 */
+        "accessKeyId": "AWS-ACCESS-KEY-ID",          /* AWS Access Key e.g. AKIAI57SG4YC2ZUCSABC */
+        "secretAccessKey": "AWS-SECRET-ACCESS-KEY",  /* AWS Secret e.g. MUo72/UQWgL97QArGt9HVUA */
+        "dbTablePrefix": "DATABASE-TABLE-PREFIX"     /* Prefix for database table names e.g. certification-dev- */
+    }
 }
 ```
 

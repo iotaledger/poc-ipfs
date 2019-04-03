@@ -8,5 +8,10 @@
         "provider": "MYIPFSNODE_PROVIDER",
         "token": "MYIPFSNODE_TOKEN"
     },
-    "seed": "TANGLE_SEED"
+    "dynamoDbConnection": {
+        "region": "AWS-REGION",
+        "accessKeyId": "AWS-ACCESS-KEY-ID",
+        "secretAccessKey": "AWS-SECRET-ACCESS-KEY",
+        "dbTablePrefix": "DATABASE-TABLE-PREFIX"
+    }
 }

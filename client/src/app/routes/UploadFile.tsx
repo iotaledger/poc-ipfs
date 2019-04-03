@@ -17,7 +17,7 @@ class UploadFile extends Component<any, UploadFileState> {
     /**
      * The maximum file size we want to accept.
      */
-    private static readonly MAX_FILE_SIZE: number = 10240;
+    private static readonly MAX_FILE_SIZE: number = 5 * 1048576;
 
     /**
      * The configuration.
@@ -78,7 +78,7 @@ class UploadFile extends Component<any, UploadFileState> {
                     <React.Fragment>
                         <Heading level={1}>Upload File</Heading>
                         <p>Please select the file you want to upload to the Tangle and IPFS.</p>
-                        <p>The file must be greater than 0 bytes and less than {UploadFile.MAX_FILE_SIZE} bytes in size.</p>
+                        <p>The file must be greater than 0 bytes and less than {UploadFile.MAX_FILE_SIZE / 1048576} Mb in size.</p>
                         <Form>
                             <Fieldset>
                                 <label>File</label>

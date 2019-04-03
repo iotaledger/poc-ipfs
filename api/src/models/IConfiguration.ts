@@ -1,3 +1,4 @@
+import { IAWSDynamoDbConfiguration } from "./IAWSDynamoDbConfiguration";
 import { IIPFSConfiguration } from "./IIPFSConfiguration";
 import { INodeConfiguration } from "./INodeConfiguration";
 
@@ -16,7 +17,7 @@ export interface IConfiguration {
     ipfs: IIPFSConfiguration;
 
     /**
-     * The seed to generate address for the transactions.
+     * The dynamic db connection.
      */
-    seed: string;
+    dynamoDbConnection: IAWSDynamoDbConfiguration;
 }

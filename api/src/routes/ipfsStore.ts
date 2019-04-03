@@ -1,10 +1,14 @@
 import { composeAPI, generateAddress } from "@iota/core";
+import { asTransactionTrytes } from "@iota/transaction-converter";
 import crypto from "crypto";
 import ipfsClient from "ipfs-http-client";
 import { IIPFSStoreRequest } from "../models/api/IIPFSStoreRequest";
 import { IIPFSStoreResponse } from "../models/api/IIPFSStoreResponse";
 import { IConfiguration } from "../models/IConfiguration";
 import { IPayload } from "../models/tangle/IPayload";
+import { BundleCacheService } from "../services/bundleCacheService";
+import { StateService } from "../services/stateService";
+import { TransactionCacheService } from "../services/transactionCacheService";
 import { IotaHelper } from "../utils/iotaHelper";
 import { TrytesHelper } from "../utils/trytesHelper";
 import { ValidationHelper } from "../utils/validationHelper";
@@ -26,12 +30,12 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
 
         await IotaHelper.isNodeAvailable(config.node.provider, true);
 
-        const maxSize = 10240;
+        const maxSize = 5 * 1048576;
 
         const buffer = Buffer.from(request.data, "base64");
 
         if (buffer.length >= maxSize) {
-            throw new Error(`The file is too large for this demonstration, it should be less than ${maxSize} bytes.`);
+            throw new Error(`The file is too large for this demonstration, it should be less than ${maxSize / 1048576} Mb.`);
         }
 
         if (buffer.length === 0) {
@@ -70,11 +74,26 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         console.log(addResponse);
         console.log(`Adding file ${request.name} complete in ${Date.now() - addStart}ms`);
 
+        const stateService = new StateService(config.dynamoDbConnection);
+
+        let currentState = await stateService.get("default");
+        if (!currentState) {
+            currentState = {
+                seed: TrytesHelper.generateHash(),
+                id: "default",
+                addressIndex: 0
+            };
+        } else {
+            currentState.addressIndex++;
+        }
+
+        await stateService.set(currentState);
+
         const iota = composeAPI({
             provider: config.node.provider
         });
 
-        const nextAddress = generateAddress(config.seed, 0, 2);
+        const nextAddress = generateAddress(currentState.seed, currentState.addressIndex, 2);
 
         const tanglePayload: IPayload = {
             name: request.name,
@@ -101,10 +120,20 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         const bundles = await iota.sendTrytes(trytes, config.node.depth, config.node.mwm);
         console.log(`Sending Trytes complete in ${Date.now() - sendStart}ms`);
 
+        const txHashes = bundles.map(b => b.hash);
+        const attachedTrytes = asTransactionTrytes(bundles);
+        const bundleCacheService = new BundleCacheService(config.dynamoDbConnection, config.node.provider, true);
+        await bundleCacheService.set({ id: bundles[0].bundle, transactionHashes: txHashes });
+
+        const transactionCacheService = new TransactionCacheService(config.dynamoDbConnection, config.node.provider, true);
+        for (let i = 0; i < bundles.length; i++) {
+            await transactionCacheService.set({ id: bundles[i].hash, trytes: attachedTrytes[i] });
+        }
+
         return {
             success: true,
             message: "OK",
-            transactionHash: bundles[0].hash,
+            transactionHash: txHashes[0],
             ipfs: tanglePayload.ipfs
         };
     } catch (err) {
