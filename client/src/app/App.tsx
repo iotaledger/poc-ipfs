@@ -11,6 +11,7 @@ import { IpfsService } from "../services/ipfsService";
 import { TangleExplorerService } from "../services/tangleExplorerService";
 import { AppState } from "./AppState";
 import RetrieveFile from "./routes/RetrieveFile";
+import { RetrieveFileParams } from "./routes/RetrieveFileParams";
 import UploadFile from "./routes/UploadFile";
 
 /**
@@ -118,8 +119,12 @@ class App extends Component<RouteComponentProps, AppState> {
                         {!this.state.status && (
                             <Switch>
                                 <Route exact={true} path="/" component={() => (<UploadFile hash={Date.now()} />)} />
-                                <Route exact={true} path="/retrieve" component={() => (<RetrieveFile hash={Date.now()} />)} />
-                        </Switch>
+                                <Route
+                                    exact={true}
+                                    path="/retrieve/:transactionHash?/:hash?"
+                                    component={(props: RouteComponentProps<RetrieveFileParams>) => (<RetrieveFile {...props} />)}
+                                />
+                            </Switch>
                         )}
                     </LayoutAppSingle>
                 </section>

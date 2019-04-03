@@ -1,18 +1,20 @@
 import crypto from "crypto";
 import { Button, ClipboardHelper, Fieldset, Form, FormActions, FormStatus, Heading, ScrollHelper, Success } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
+import { RouteComponentProps } from "react-router";
 import { SHA3 } from "sha3";
 import { ServiceFactory } from "../../factories/serviceFactory";
 import { IConfiguration } from "../../models/config/IConfiguration";
 import { ApiClient } from "../../services/apiClient";
 import { ConfigurationService } from "../../services/configurationService";
 import { IpfsService } from "../../services/ipfsService";
+import { RetrieveFileParams } from "./RetrieveFileParams";
 import { RetrieveFileState } from "./RetrieveFileState";
 
 /**
  * Component which will load file data from the tangle and validate it.
  */
-class RetrieveFile extends Component<any, RetrieveFileState> {
+class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, RetrieveFileState> {
     /**
      * The configuration.
      */
@@ -32,7 +34,7 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
      * Create a new instance of RetrieveFile.
      * @param props The props.
      */
-    constructor(props: any) {
+    constructor(props: RouteComponentProps<RetrieveFileParams>) {
         super(props);
 
         this._configuration = ServiceFactory.get<ConfigurationService<IConfiguration>>("configuration").get();
@@ -51,9 +53,18 @@ class RetrieveFile extends Component<any, RetrieveFileState> {
             fileAlgorithm: undefined,
             fileHash: "",
             fileBuffer: undefined,
-            transactionHash: "",
+            transactionHash: this.props.match.params && this.props.match.params.transactionHash === undefined ? "" : this.props.match.params.transactionHash,
             ipfsHash: ""
         };
+    }
+
+    /**
+     * The component mounted.
+     */
+    public async componentDidMount(): Promise<void> {
+        if (this.validateData()) {
+            await this.retrieveFile();
+        }
     }
 
     /**
