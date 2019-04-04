@@ -1,7 +1,7 @@
 {
     "name": "iota-poc-ipfs-api",
     "description": "API for IOTA IPFS",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "author": "Martyn Janes <martyn.janes@iota.org>",
     "repository": {
         "type": "git",

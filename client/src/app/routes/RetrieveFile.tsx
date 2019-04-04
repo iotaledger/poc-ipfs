@@ -161,6 +161,9 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                         </FormActions>
                     </React.Fragment>
                 )}
+                <p>To find out more details on how this was implemented, please read the Blueprint on the docs
+                site <a href="https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview" target="_blank" rel="noopener noreferrer">Tangle Data Storage Blueprint</a> or
+                view the source code on <a href="https://github.com/iotaledger/poc-ipfs" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
             </React.Fragment>
         );
     }

@@ -18,7 +18,7 @@ class UploadFile extends Component<any, UploadFileState> {
     /**
      * The maximum file size we want to accept.
      */
-    private static readonly MAX_FILE_SIZE: number = 1 * 1048576;
+    private static readonly MAX_FILE_SIZE: number = 0.5 * 1048576;
 
     /**
      * The configuration.
@@ -79,8 +79,9 @@ class UploadFile extends Component<any, UploadFileState> {
                 {!this.state.transactionHash && (
                     <React.Fragment>
                         <Heading level={1}>Upload File</Heading>
-                        <p>Please select the file you want to upload to the Tangle and IPFS.</p>
-                        <p>The file must be greater than 0 bytes and less than {UploadFile.MAX_FILE_SIZE / 1048576} Mb in size.</p>
+                        <p>Please select the file you want to upload to the Tangle and IPFS.<br />
+                            The file must be greater than 0 bytes and less than {(UploadFile.MAX_FILE_SIZE / 1048576).toFixed(1)} Mb in size.<br />
+                            This limit is imposed by this demonstration, IPFS has no real limits in this respect.</p>
                         <Form>
                             <Fieldset>
                                 <label>File</label>
@@ -171,6 +172,9 @@ class UploadFile extends Component<any, UploadFileState> {
                         <Button color="primary" onClick={() => this.resetState()}>Upload Another File</Button>
                     </React.Fragment>
                 )}
+                <p>To find out more details on how this was implemented, please read the Blueprint on the docs
+                site <a href="https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview" target="_blank" rel="noopener noreferrer">Tangle Data Storage Blueprint</a> or
+                view the source code on <a href="https://github.com/iotaledger/poc-ipfs" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
             </React.Fragment>
         );
     }

@@ -32,6 +32,14 @@
                 {
                     "href": "/retrieve",
                     "text": "Retrieve File"
+                },
+                {
+                    "href": "https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview",
+                    "text": "Blueprint"
+                },
+                {
+                    "href": "https://github.com/iotaledger/poc-ipfs",
+                    "text": "GitHub"
                 }
             ]
         },
