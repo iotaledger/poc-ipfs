@@ -48,10 +48,13 @@ export class TransactionCacheService extends AmazonDynamoDbService<ITransaction>
 
                 const getTrytesResponse = await iota.getTrytes([id]);
                 if (getTrytesResponse && getTrytesResponse.length > 0) {
-                    return {
-                        id,
-                        trytes: getTrytesResponse[0]
-                    };
+                    // All 9s means it has been removed with a snapshot
+                    if (!/^9*$/.test(getTrytesResponse[0])) {
+                        return {
+                            id,
+                            trytes: getTrytesResponse[0]
+                        };
+                    }
                 }
             } catch (err) {
             }
