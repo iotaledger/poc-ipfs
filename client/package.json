@@ -9,7 +9,7 @@
     },
     "license": "MIT",
     "dependencies": {
-        "axios": "^0.18.0",
+        "axios": "^0.19.0",
         "classnames": "^2.2.6",
         "iota-css-theme": "github:iotaledger/iota-css-theme",
         "iota-react-components": "github:iotaledger/iota-react-components",
