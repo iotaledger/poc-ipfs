@@ -2,7 +2,7 @@
 
 ## Configuration
 
-You should copy `./public/data/config.template.json` to `./public/data/config.dev.json` and modify it to point the `apiEndpoint` to wherever you have deployed the `api` package.
+You should copy `./public/data/config.template.json` to `./public/data/config.local.json` and modify it to point the `apiEndpoint` to wherever you have deployed the `api` package.
 
 ```js
 {
