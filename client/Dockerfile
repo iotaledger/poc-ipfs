@@ -11,7 +11,6 @@ COPY . ./
 ARG CONFIG_ID
 ARG GITHUB_TOKEN
 RUN echo "CONFIG_ID=$CONFIG_ID"
-RUN echo "GITHUB_TOKEN=$GITHUB_TOKEN"
 ENV REACT_APP_CONFIG_ID=$CONFIG_ID
 
 # We are npm installing from private repos so we need github token with access
