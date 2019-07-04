@@ -13,11 +13,11 @@
         "classnames": "^2.2.6",
         "iota-css-theme": "github:iotaledger/iota-css-theme",
         "iota-react-components": "github:iotaledger/iota-react-components",
-        "react": "^16.8.3",
-        "react-dom": "^16.8.3",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
         "react-router-dom": "^4.3.1",
-        "react-scripts": "^2.1.5",
-        "sha3": "^2.0.1"
+        "react-scripts": "^3.0.1",
+        "sha3": "^2.0.4"
     },
     "engines": {
         "node": "10.x.x"
@@ -37,19 +37,19 @@
         "not op_mini all"
     ],
     "devDependencies": {
-        "@types/classnames": "^2.2.6",
-        "@types/jest": "^24.0.9",
-        "@types/node": "^11.9.5",
-        "@types/react": "^16.8.5",
-        "@types/react-dom": "^16.8.2",
-        "@types/react-router-dom": "^4.3.1",
+        "@types/classnames": "^2.2.9",
+        "@types/jest": "^24.0.15",
+        "@types/node": "^12.0.12",
+        "@types/react": "^16.8.23",
+        "@types/react-dom": "^16.8.4",
+        "@types/react-router-dom": "^4.3.4",
         "cross-env": "^5.2.0",
-        "node-sass": "^4.11.0",
-        "sass-lint": "^1.12.1",
-        "tslint": "^5.13.0",
+        "node-sass": "^4.12.0",
+        "sass-lint": "^1.13.1",
+        "tslint": "^5.18.0",
         "tslint-eslint-rules": "^5.4.0",
-        "tslint-microsoft-contrib": "^6.0.0",
-        "tslint-react": "^3.6.0",
-        "typescript": "^3.3.3333"
+        "tslint-microsoft-contrib": "^6.2.0",
+        "tslint-react": "^4.0.0",
+        "typescript": "^3.5.2"
     }
 }
