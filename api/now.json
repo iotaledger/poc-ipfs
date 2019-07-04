@@ -1,13 +1,4 @@
 {
     "version": 1,
-    "name": "iota-poc-ipfs-api",
-    "features": {
-      "cloud": "v1"
-    },
-    "scale": {
-      "sfo": {
-        "min": 1,
-        "max": 1
-      }
-    }
+    "name": "iota-poc-ipfs-api"
 }
