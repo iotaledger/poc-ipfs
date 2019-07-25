@@ -20,4 +20,9 @@ export interface IConfiguration {
      * The dynamic db connection.
      */
     dynamoDbConnection: IAWSDynamoDbConfiguration;
+
+    /**
+     * A list of domains allowed to access the api.
+     */
+    allowedDomains: string[];
 }

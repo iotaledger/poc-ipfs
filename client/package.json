@@ -17,13 +17,13 @@
         "react-dom": "^16.8.6",
         "react-router-dom": "^4.3.1",
         "react-scripts": "^3.0.1",
-        "sha3": "^2.0.4"
+        "sha3": "^2.0.6"
     },
     "engines": {
         "node": "10.x.x"
     },
     "scripts": {
-        "start": "cross-env PORT=3001 react-scripts start",
+        "start": "cross-env PORT=3000 react-scripts start",
         "lint": "tslint --project ./tsconfig.json",
         "build": "react-scripts build",
         "test": "react-scripts test",
@@ -39,9 +39,9 @@
     "devDependencies": {
         "@types/classnames": "^2.2.9",
         "@types/jest": "^24.0.15",
-        "@types/node": "^12.0.12",
+        "@types/node": "^12.6.8",
         "@types/react": "^16.8.23",
-        "@types/react-dom": "^16.8.4",
+        "@types/react-dom": "^16.8.5",
         "@types/react-router-dom": "^4.3.4",
         "cross-env": "^5.2.0",
         "node-sass": "^4.12.0",
@@ -50,6 +50,6 @@
         "tslint-eslint-rules": "^5.4.0",
         "tslint-microsoft-contrib": "^6.2.0",
         "tslint-react": "^4.0.0",
-        "typescript": "^3.5.2"
+        "typescript": "^3.5.3"
     }
 }

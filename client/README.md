@@ -10,7 +10,7 @@ npm install
 
 ## Development
 
-This will run the Web UI at <http://localhost:3001>
+This will run the Web UI at <http://localhost:3000>
 
 ```shell
 npm run start

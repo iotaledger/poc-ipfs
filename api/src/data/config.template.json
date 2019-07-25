@@ -13,5 +13,9 @@
         "accessKeyId": "AWS-ACCESS-KEY-ID",
         "secretAccessKey": "AWS-SECRET-ACCESS-KEY",
         "dbTablePrefix": "DATABASE-TABLE-PREFIX"
-    }
+    },
+    "allowedDomains": [
+        "https://ipfs.iota.works",
+        "https://ipfs.iota.org"
+    ]
 }

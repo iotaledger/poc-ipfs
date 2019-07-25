@@ -1,4 +1,5 @@
 import bodyParser from "body-parser";
+import cors from "cors";
 import express, { Application } from "express";
 import { IDataResponse } from "../models/api/IDataResponse";
 import { IConfiguration } from "../models/IConfiguration";
@@ -30,13 +31,10 @@ export class AppHelper {
         app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
         app.use(bodyParser.json());
 
-        app.use((req, res, next) => {
-            res.setHeader("Access-Control-Allow-Origin", `*`);
-            res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE");
-            res.setHeader("Access-Control-Allow-Headers", "content-type");
-
-            next();
-        });
+        app.use(cors({
+            origin: config.allowedDomains && config.allowedDomains.length > 0 ? config.allowedDomains : "*",
+            allowedHeaders: "content-type"
+        }));
 
         routes.unshift({ path: "/", method: "get", inline: async () => ({ name: packageJson.name, version: packageJson.version }) });
 
