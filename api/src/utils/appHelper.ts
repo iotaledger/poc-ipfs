@@ -16,7 +16,10 @@ export class AppHelper {
      * @param customListener If true uses a custom listener otherwise listens for you during build process.
      * @returns The express js application.
      */
-    public static build(routes: IRoute[], onComplete?: (app: Application, config: IConfiguration, port: number) => void, customListener?: boolean): Application {
+    public static build(
+        routes: IRoute[],
+        onComplete?: (app: Application, config: IConfiguration, port: number) => void,
+        customListener?: boolean): Application {
         // tslint:disable:no-var-requires no-require-imports
         const packageJson = require("../../package.json");
         const configId = process.env.CONFIG_ID || "local";
@@ -36,7 +39,12 @@ export class AppHelper {
             allowedHeaders: "content-type"
         }));
 
-        routes.unshift({ path: "/", method: "get", inline: async () => ({ name: packageJson.name, version: packageJson.version }) });
+        routes.unshift(
+            {
+                path: "/",
+                method: "get",
+                inline: async () => ({ name: packageJson.name, version: packageJson.version })
+            });
 
         AppHelper.buildRoutes(config, app, routes);
 

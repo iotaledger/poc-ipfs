@@ -6,11 +6,13 @@ import App from "./app/App";
 import "./index.scss";
 
 ReactDOM.render(
-    <BrowserRouter>
-        <React.Fragment>
-            <RouterScrollTop />
-            <App />
-        </React.Fragment>
-    </BrowserRouter>,
+    (
+        <BrowserRouter>
+            <React.Fragment>
+                <RouterScrollTop />
+                <App />
+            </React.Fragment>
+        </BrowserRouter>
+    ),
     document.getElementById("root")
 );

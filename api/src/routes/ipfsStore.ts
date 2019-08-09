@@ -37,7 +37,10 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         const buffer = Buffer.from(request.data, "base64");
 
         if (buffer.length >= maxSize) {
-            throw new Error(`The file is too large for this demonstration, it should be less than ${(maxSize / 1048576).toFixed(1)} Mb.`);
+            throw new Error(
+                `The file is too large for this demonstration, it should be less than ${
+                (maxSize / 1048576).toFixed(1)} Mb.`
+            );
         }
 
         if (buffer.length === 0) {
@@ -57,7 +60,8 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         }
 
         if (hex !== request.hash) {
-            throw new Error(`The hash for the file is incorrect '${request.hash}' was sent but it has been calculated as '${hex}'`);
+            throw new Error(
+                `The hash for the file is incorrect '${request.hash}' was sent but it has been calculated as '${hex}'`);
         }
 
         const parts = /(https):\/\/(.*):(\d*)(.*)/.exec(config.ipfs.provider);
@@ -136,7 +140,10 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         const bundleCacheService = new BundleCacheService(config.dynamoDbConnection, config.node.provider, true);
         await bundleCacheService.set({ id: bundles[0].bundle, transactionHashes: txHashes });
 
-        const transactionCacheService = new TransactionCacheService(config.dynamoDbConnection, config.node.provider, true);
+        const transactionCacheService = new TransactionCacheService(
+            config.dynamoDbConnection,
+            config.node.provider,
+            true);
         for (let i = 0; i < bundles.length; i++) {
             await transactionCacheService.set({ id: bundles[i].hash, trytes: attachedTrytes[i] });
         }

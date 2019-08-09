@@ -80,7 +80,8 @@ class UploadFile extends Component<any, UploadFileState> {
                     <React.Fragment>
                         <Heading level={1}>Upload File</Heading>
                         <p>Please select the file you want to upload to the Tangle and IPFS.<br />
-                            The file must be greater than 0 bytes and less than {(UploadFile.MAX_FILE_SIZE / 1048576).toFixed(1)} Mb in size.<br />
+                            The file must be greater than 0 bytes and less than {
+                                (UploadFile.MAX_FILE_SIZE / 1048576).toFixed(1)} Mb in size.<br />
                             This limit is imposed by this demonstration, IPFS has no real limits in this respect.</p>
                         <Form>
                             <Fieldset>
@@ -91,15 +92,31 @@ class UploadFile extends Component<any, UploadFileState> {
                                     value={this.state.fileName}
                                     readOnly={true}
                                 />
-                                <Button disabled={this.state.isBusy} onClick={() => this.chooseFile()}>Choose File</Button>
+                                <Button
+                                    disabled={this.state.isBusy}
+                                    onClick={() => this.chooseFile()}
+                                >
+                                    Choose File
+                                </Button>
                             </Fieldset>
                             {this.state.fileSize !== undefined &&
                                 <Fieldset small={true}>
                                     <label>Size</label>
-                                    <span className={classNames({ danger: this.state.fileSize === 0 || this.state.fileSize > UploadFile.MAX_FILE_SIZE })}>
+                                    <span
+                                        className={
+                                            classNames(
+                                                {
+                                                    danger:
+                                                        this.state.fileSize === 0 ||
+                                                        this.state.fileSize > UploadFile.MAX_FILE_SIZE
+                                                })
+                                        }
+                                    >
                                         {this.state.fileSize} bytes
-                                        {this.state.fileSize > UploadFile.MAX_FILE_SIZE ? " - the file is too large for this demonstration" : ""}
-                                        {this.state.fileSize === 0 ? " - the file is too small for this demonstration" : ""}
+                                        {this.state.fileSize > UploadFile.MAX_FILE_SIZE
+                                            ? " - the file is too large for this demonstration" : ""}
+                                        {this.state.fileSize === 0
+                                            ? " - the file is too small for this demonstration" : ""}
                                     </span>
                                 </Fieldset>
                             }
@@ -116,6 +133,7 @@ class UploadFile extends Component<any, UploadFileState> {
                                         <span>
                                             <Button
                                                 size="small"
+                                                disabled={this.state.isBusy}
                                                 color={this.state.fileAlgorithm === "sha3" ? "primary" : "secondary"}
                                                 onClick={() => this.setAlgorithm("sha3")}
                                             >
@@ -123,6 +141,7 @@ class UploadFile extends Component<any, UploadFileState> {
                                             </Button>
                                             <Button
                                                 size="small"
+                                                disabled={this.state.isBusy}
                                                 color={this.state.fileAlgorithm === "sha256" ? "primary" : "secondary"}
                                                 onClick={() => this.setAlgorithm("sha256")}
                                             >
@@ -142,15 +161,25 @@ class UploadFile extends Component<any, UploadFileState> {
                                     type="text"
                                     placeholder="Please enter a short description for the file"
                                     value={this.state.fileDescription}
-                                    onChange={e => this.setState({ fileDescription: e.target.value }, () => this.validateData())}
+                                    onChange={e => this.setState(
+                                        { fileDescription: e.target.value }, () => this.validateData())}
                                     maxLength={100}
                                     readOnly={this.state.isBusy}
                                 />
                             </Fieldset>
                             <FormActions>
-                                <Button disabled={!this.state.isValid || this.state.isBusy} onClick={async () => this.uploadFile()}>Upload</Button>
+                                <Button
+                                    disabled={!this.state.isValid || this.state.isBusy}
+                                    onClick={async () => this.uploadFile()}
+                                >
+                                    Upload
+                                </Button>
                             </FormActions>
-                            <FormStatus message={this.state.status} isBusy={this.state.isBusy} isError={this.state.isErrored} />
+                            <FormStatus
+                                message={this.state.status}
+                                isBusy={this.state.isBusy}
+                                isError={this.state.isErrored}
+                            />
                         </Form>
                     </React.Fragment>
                 )}
@@ -160,21 +189,61 @@ class UploadFile extends Component<any, UploadFileState> {
                         <Success message="The file has successfully been added to the Tangle and IPFS." />
                         <p>You can view the transaction on the Tangle here.</p>
                         <ButtonContainer>
-                            <Button color="secondary" long={true} onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}>{this.state.transactionHash}</Button>
-                            <Button color="secondary" onClick={() => ClipboardHelper.copy(this.state.transactionHash)}>Copy Tangle Hash</Button>
+                            <Button
+                                color="secondary"
+                                long={true}
+                                onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}
+                            >
+                                {this.state.transactionHash}
+                            </Button>
+                            <Button
+                                color="secondary"
+                                onClick={() => ClipboardHelper.copy(this.state.transactionHash)}
+                            >
+                                Copy Tangle Hash
+                            </Button>
                         </ButtonContainer>
-                        <p>A public gateway for the file is linked below, the file may not be available immediately as it takes time to propogate through the IPFS network.</p>
+                        <p>A public gateway for the file is linked below, the file may not be available immediately
+                             as it takes time to propogate through the IPFS network.</p>
                         <ButtonContainer>
-                            <Button color="secondary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
-                            <Button color="secondary" onClick={() => ClipboardHelper.copy(this.state.ipfsHash)}>Copy IPFS Hash</Button>
+                            <Button
+                                color="secondary"
+                                long={true}
+                                disableCaseStyle={true}
+                                onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}
+                            >
+                                {this.state.ipfsHash}
+                            </Button>
+                            <Button
+                                color="secondary"
+                                onClick={() => ClipboardHelper.copy(this.state.ipfsHash)}
+                            >
+                                Copy IPFS Hash
+                            </Button>
                         </ButtonContainer>
                         <br />
                         <Button color="primary" onClick={() => this.resetState()}>Upload Another File</Button>
                     </React.Fragment>
                 )}
                 <p>To find out more details on how this was implemented, please read the Blueprint on the docs
-                site <a href="https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview" target="_blank" rel="noopener noreferrer">Tangle Data Storage Blueprint</a> or
-                view the source code on <a href="https://github.com/iotaledger/poc-ipfs" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+                site
+                <a
+                        href="https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                >
+                        Tangle Data Storage Blueprint
+                </a>
+                    or
+                view the source code on
+                <a
+                        href="https://github.com/iotaledger/poc-ipfs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                >
+                        GitHub
+                </a>
+                .</p>
             </React.Fragment>
         );
     }

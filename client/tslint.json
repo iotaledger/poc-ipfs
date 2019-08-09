@@ -2,7 +2,7 @@
     "extends": [
         "tslint:recommended",
         "tslint-react",
-        "tslint-microsoft-contrib",
+        "tslint-microsoft-contrib/recommended",
         "tslint-eslint-rules"
     ],
     "linterOptions": {
@@ -22,7 +22,6 @@
         "no-document-write": true,
         "no-eval": true,
         "no-exec-script": true,
-        "no-function-constructor-with-string-args": true,
         "no-http-string": [
             false
         ],
@@ -37,7 +36,10 @@
         "react-anchor-blank-noopener": true,
         "react-iframe-missing-sandbox": true,
         "react-no-dangerous-html": true,
-        "await-promise": [true, "Bluebird"],
+        "await-promise": [
+            true,
+            "Bluebird"
+        ],
         "forin": false,
         "jquery-deferred-must-complete": true,
         "label-position": true,
@@ -82,14 +84,12 @@
         "no-stateless-class": false,
         "no-string-literal": true,
         "no-string-throw": true,
-        "no-unnecessary-bind": true,
         "no-unnecessary-callback-wrapper": true,
         "no-unnecessary-initializer": true,
         "no-unnecessary-override": true,
         "no-unsafe-any": false,
         "no-unsafe-finally": true,
         "no-unused-expression": true,
-        "no-use-before-declare": true,
         "no-with-statement": true,
         "promise-function-async": true,
         "promise-must-complete": true,
@@ -110,7 +110,10 @@
             true,
             "array"
         ],
-        "arrow-parens": false,
+        "arrow-parens": [
+            true,
+            "ban-single-arg-parens"
+        ],
         "callable-types": true,
         "chai-prefer-contains-to-index-of": true,
         "chai-vague-errors": false,
@@ -147,7 +150,10 @@
         ],
         "max-line-length": [
             true,
-            200
+            {
+                "limit": 120,
+                "ignore-pattern": "^import"
+            }
         ],
         "member-access": true,
         "member-ordering": [
@@ -348,5 +354,5 @@
         "react-a11y-role-has-required-aria-props": false,
         "use-simple-attributes": false,
         "react-a11y-no-onchange": false
-     }
+    }
 }

@@ -53,7 +53,8 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
             fileAlgorithm: undefined,
             fileHash: "",
             fileBuffer: undefined,
-            transactionHash: this.props.match.params && this.props.match.params.transactionHash === undefined ? "" : this.props.match.params.transactionHash,
+            transactionHash: this.props.match.params &&
+                this.props.match.params.transactionHash === undefined ? "" : this.props.match.params.transactionHash,
             ipfsHash: ""
         };
     }
@@ -85,14 +86,24 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                                     type="text"
                                     placeholder="Please enter the transaction hash in trytes"
                                     value={this.state.transactionHash}
-                                    onChange={(e) => this.setState({ transactionHash: e.target.value }, () => this.validateData())}
+                                    onChange={e => this.setState(
+                                        { transactionHash: e.target.value }, () => this.validateData())}
                                     readOnly={this.state.isBusy}
                                 />
                             </Fieldset>
                             <FormActions>
-                                <Button disabled={!this.state.isValid || this.state.isBusy} onClick={async () => this.retrieveFile()}>Retrieve</Button>
+                                <Button
+                                    disabled={!this.state.isValid || this.state.isBusy}
+                                    onClick={async () => this.retrieveFile()}
+                                >
+                                    Retrieve
+                                </Button>
                             </FormActions>
-                            <FormStatus message={this.state.status} isBusy={this.state.isBusy} isError={this.state.isErrored} />
+                            <FormStatus
+                                message={this.state.status}
+                                isBusy={this.state.isBusy}
+                                isError={this.state.isErrored}
+                            />
                         </Form>
                     </React.Fragment>
                 )}
@@ -143,15 +154,35 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                             )}
                         </Form>
 
-                        <FormStatus message={this.state.status} isBusy={this.state.isBusy} isError={this.state.isErrored} />
+                        <FormStatus
+                            message={this.state.status}
+                            isBusy={this.state.isBusy}
+                            isError={this.state.isErrored}
+                        />
 
                         {this.state.fileBuffer && (
                             <React.Fragment>
-                                <Success message="The file on IPFS has been successfully validated against the data on the Tangle, the file is linked below:" />
+                                <Success
+                                    message={
+                                        `The file on IPFS has been successfully validated against the data` +
+                                        ` on the Tangle, the file is linked below:}`}
+                                />
                                 <br />
                                 <div>
-                                    <Button color="secondary" long={true} disableCaseStyle={true} onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}>{this.state.ipfsHash}</Button>
-                                    <Button color="secondary" onClick={() => ClipboardHelper.copy(this.state.ipfsHash)}>Copy IPFS Hash</Button>
+                                    <Button
+                                        color="secondary"
+                                        long={true}
+                                        disableCaseStyle={true}
+                                        onClick={() => this._ipfsService.exploreFile(this.state.ipfsHash)}
+                                    >
+                                        {this.state.ipfsHash}
+                                    </Button>
+                                    <Button
+                                        color="secondary"
+                                        onClick={() => ClipboardHelper.copy(this.state.ipfsHash)}
+                                    >
+                                        Copy IPFS Hash
+                                    </Button>
                                 </div>
                             </React.Fragment>
                         )}
@@ -162,8 +193,23 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                     </React.Fragment>
                 )}
                 <p>To find out more details on how this was implemented, please read the Blueprint on the docs
-                site <a href="https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview" target="_blank" rel="noopener noreferrer">Tangle Data Storage Blueprint</a> or
-                view the source code on <a href="https://github.com/iotaledger/poc-ipfs" target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+                site
+                <a
+                        href="https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                >
+                        Tangle Data Storage Blueprint
+                </a> or
+                            view the source code on
+                <a
+                        href="https://github.com/iotaledger/poc-ipfs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                >
+                        GitHub
+                </a>.
+                </p>
             </React.Fragment>
         );
     }
@@ -233,7 +279,10 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                                                 ipfsFileHash: ipfsFileHash
                                             });
                                         } else {
-                                            throw new Error("The hash of the file loaded from IPFS does not match the data stored on the Tangle");
+                                            throw new Error(
+                                                `The hash of the file loaded from IPFS does not match`
+                                                + `the data stored on the Tangle`
+                                            );
                                         }
                                     } else {
                                         throw new Error("Could not load file from IPFS");

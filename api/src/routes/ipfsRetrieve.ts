@@ -15,13 +15,18 @@ import { ValidationHelper } from "../utils/validationHelper";
  * @param request the request.
  * @returns The response.
  */
-export async function ipfsRetrieve(config: IConfiguration, request: IIPFSRetrieveRequest): Promise<IIPFSRetrieveResponse> {
+export async function ipfsRetrieve(
+    config: IConfiguration,
+    request: IIPFSRetrieveRequest): Promise<IIPFSRetrieveResponse> {
     try {
         ValidationHelper.string(request.transactionHash, "transactionHash");
 
         const hasConnectivity = await IotaHelper.isNodeAvailable(config.node.provider);
 
-        const transactionCacheService = new TransactionCacheService(config.dynamoDbConnection, config.node.provider, hasConnectivity);
+        const transactionCacheService = new TransactionCacheService(
+            config.dynamoDbConnection,
+            config.node.provider,
+            hasConnectivity);
         const transaction = await transactionCacheService.get(request.transactionHash);
 
         if (!transaction) {
@@ -32,7 +37,10 @@ export async function ipfsRetrieve(config: IConfiguration, request: IIPFSRetriev
         const txObjects: Transaction[] = [txObject];
 
         if (txObject.lastIndex > 0) {
-            const bundleCacheService = new BundleCacheService(config.dynamoDbConnection, config.node.provider, hasConnectivity);
+            const bundleCacheService = new BundleCacheService(
+                config.dynamoDbConnection,
+                config.node.provider,
+                hasConnectivity);
             const bundle = await bundleCacheService.get(txObject.bundle);
             if (bundle) {
                 for (let i = 0; i < bundle.transactionHashes.length; i++) {

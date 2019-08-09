@@ -9,8 +9,8 @@ You should copy `./public/data/config.template.json` to `./public/data/config.lo
     "apiEndpoint": "ENDPOINT",                   /* The url of the api endpoint e.g. https://api.my-domain.com */
     "ipfsGateway": "https://ipfs.io/ipfs/:hash", /* Url of an IPFS gateway for viewing files */
     "tangleExplorer": {
-        "transactions": "https://thetangle.org/transaction/:transactionHash",
-        "bundles": "https://thetangle.org/bundle/:bundleHash"
+        "transactions": "https://utils.iota.org/transaction/:transactionHash",
+        "bundles": "https://utils.iota.org/bundle/:bundleHash"
     },
     "googleAnalyticsId": "GOOGLE-ANALYTICS-ID"   /* Optional, google analytics id */
 }

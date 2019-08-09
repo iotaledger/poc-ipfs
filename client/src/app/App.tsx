@@ -115,20 +115,29 @@ class App extends Component<RouteComponentProps, AppState> {
                 />
                 <section className="content">
                     <LayoutAppSingle>
-                        <StatusMessage status={this.state.status} color={this.state.statusColor} isBusy={this.state.isBusy} />
+                        <StatusMessage
+                            status={this.state.status}
+                            color={this.state.statusColor}
+                            isBusy={this.state.isBusy}
+                        />
                         {!this.state.status && (
                             <Switch>
                                 <Route exact={true} path="/" component={() => (<UploadFile hash={Date.now()} />)} />
                                 <Route
                                     exact={true}
                                     path="/retrieve/:transactionHash?/:hash?"
-                                    component={(props: RouteComponentProps<RetrieveFileParams>) => (<RetrieveFile {...props} />)}
+                                    component={(props: RouteComponentProps<RetrieveFileParams>) =>
+                                        (<RetrieveFile {...props} />)}
                                 />
                             </Switch>
                         )}
                     </LayoutAppSingle>
                 </section>
-                <Footer history={this.props.history} sections={contentHomePage.footerSections} staticContent={contentHomePage.footerStaticContent} />
+                <Footer
+                    history={this.props.history}
+                    sections={contentHomePage.footerSections}
+                    staticContent={contentHomePage.footerStaticContent}
+                />
                 <GoogleAnalytics id={this._configuration && this._configuration.googleAnalyticsId} />
             </React.Fragment>
         );

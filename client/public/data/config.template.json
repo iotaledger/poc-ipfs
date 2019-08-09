@@ -2,8 +2,8 @@
     "apiEndpoint": "ENDPOINT",
     "ipfsGateway": "https://ipfs.io/ipfs/:hash",
     "tangleExplorer": {
-        "transactions": "https://devnet.thetangle.org/transaction/:transactionHash",
-        "bundles": "https://devnet.thetangle.org/bundle/:bundleHash"
+        "transactions": "https://utils.iota.org/transaction/:transactionHash",
+        "bundles": "https://utils.iota.org/bundle/:bundleHash"
     },
     "googleAnalyticsId": ""
 }
