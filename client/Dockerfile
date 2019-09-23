@@ -27,7 +27,7 @@ RUN rm -rf node_modules
 RUN rm package.json
 RUN rm package-lock.json
 
-EXPOSE 4001:4001
+EXPOSE 4001
 
 # Serve the prod build from the build folder
 RUN npm install serve
