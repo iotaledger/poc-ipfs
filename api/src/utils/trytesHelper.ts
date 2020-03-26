@@ -1,4 +1,4 @@
-import { asciiToTrytes, TRYTE_ALPHABET, trytesToAscii } from "@iota/converter";
+import { asciiToTrytes, trytesToAscii, TRYTE_ALPHABET } from "@iota/converter";
 import * as crypto from "crypto";
 import { TextHelper } from "./textHelper";
 
