@@ -8,17 +8,23 @@ declare module "ipfs-http-client" {
             headers: { [id: string]: string } | undefined;
         }
 
+        interface IPSFCID {
+            version: number;
+            codec: string;
+            multihash: Buffer;
+            multibaseName: string;
+        }
+
         export type FileContent = Object | Blob | string;
 
         interface IPFSFile {
             path: string;
-            hash: string;
+            cid: IPSFCID;
             size: number;
-            content?: FileContent;
         }
 
         interface IPFSClient {
-            add(buffer: Buffer): Promise<IPFSFile[]>;
+            add(buffer: Buffer): AsyncIterable<IPFSFile>;
         }
     }
 

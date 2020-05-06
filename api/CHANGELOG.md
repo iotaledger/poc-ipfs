@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.2
+
+* Fixed ipfs-http-client incompatability
+* Dependency Update
+
 ## v1.2.1
 
 * File size limit 0.5Mb

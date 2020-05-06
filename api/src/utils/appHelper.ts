@@ -26,8 +26,6 @@ export class AppHelper {
         // tslint:disable-next-line:non-literal-require
         const config: IConfiguration = require(`../data/config.${configId}.json`);
 
-        process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
         const app: Application = express();
 
         app.use(bodyParser.json({ limit: "10mb" }));

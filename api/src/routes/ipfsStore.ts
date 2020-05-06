@@ -84,8 +84,12 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
 
         const addStart = Date.now();
         console.log(`Adding file ${request.name} to IPFS of length ${request.size}`);
-        const addResponse = await ipfs.add(buffer);
-        console.log(addResponse);
+        const addResponse = ipfs.add(buffer);
+
+        let ipfsHash;
+        for await (const file of addResponse) {
+            ipfsHash = file.path;
+        }
         console.log(`Adding file ${request.name} complete in ${Date.now() - addStart}ms`);
 
         const stateService = new StateService(config.dynamoDbConnection);
@@ -116,7 +120,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
             modified: request.modified,
             algorithm: request.algorithm,
             hash: request.hash,
-            ipfs: addResponse[0].hash
+            ipfs: ipfsHash
         };
 
         console.log(`Prepare Transfer`);

@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.2
+
+* Dependency Update
+
 ## v1.2.1
 
 * Added Blueprint and GitHub links
