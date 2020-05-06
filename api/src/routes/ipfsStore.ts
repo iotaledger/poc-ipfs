@@ -64,7 +64,11 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
                 `The hash for the file is incorrect '${request.hash}' was sent but it has been calculated as '${hex}'`);
         }
 
-        const parts = /(https):\/\/(.*):(\d*)(.*)/.exec(config.ipfs.provider);
+        const parts = /(https?):\/\/(.*):(\d*)(.*)/.exec(config.ipfs.provider);
+
+        if (parts.length !== 5) {
+            throw new Error(`The IPFS Provider is not formatted correctly, it should be in the format https://ipfs.mydomain.com:443/api/v0/`);
+        }
 
         const ipfsConfig = {
             protocol: parts[1],
