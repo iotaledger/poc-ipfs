@@ -22,7 +22,7 @@ To configure the `api` you should copy `./src/data/config.template.json` to `./s
         "dbTablePrefix": "DATABASE-TABLE-PREFIX"     /* Prefix for database table names e.g. certification-dev- */
     },
     "allowedDomains": [                              /* A list of domains for the cors allow-origin */
-        "www.mydomain.com"
+        "www.mydomain.com"                           /* Include http://localhost:3000 for local testing */
     ]
 }
 ```
