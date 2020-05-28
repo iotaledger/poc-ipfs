@@ -1,6 +1,6 @@
 import { composeAPI } from "@iota/core";
+import { IAWSDynamoDbConfiguration } from "../models/configuration/IAWSDynamoDbConfiguration";
 import { ITransaction } from "../models/db/ITransaction";
-import { IAWSDynamoDbConfiguration } from "../models/IAWSDynamoDbConfiguration";
 import { AmazonDynamoDbService } from "./amazonDynamoDbService";
 
 /**

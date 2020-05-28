@@ -1,4 +1,4 @@
-import { IConfiguration } from "../models/IConfiguration";
+import { IConfiguration } from "../models/configuration/IConfiguration";
 import { BundleCacheService } from "../services/bundleCacheService";
 import { StateService } from "../services/stateService";
 import { TransactionCacheService } from "../services/transactionCacheService";

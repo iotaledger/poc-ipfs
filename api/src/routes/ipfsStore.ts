@@ -5,7 +5,7 @@ import ipfsClient from "ipfs-http-client";
 import { SHA3 } from "sha3";
 import { IIPFSStoreRequest } from "../models/api/IIPFSStoreRequest";
 import { IIPFSStoreResponse } from "../models/api/IIPFSStoreResponse";
-import { IConfiguration } from "../models/IConfiguration";
+import { IConfiguration } from "../models/configuration/IConfiguration";
 import { IPayload } from "../models/tangle/IPayload";
 import { BundleCacheService } from "../services/bundleCacheService";
 import { StateService } from "../services/stateService";

@@ -1,5 +1,5 @@
 import * as aws from "aws-sdk";
-import { IAWSDynamoDbConfiguration } from "../models/IAWSDynamoDbConfiguration";
+import { IAWSDynamoDbConfiguration } from "../models/configuration/IAWSDynamoDbConfiguration";
 
 /**
  * Class to helper with database.

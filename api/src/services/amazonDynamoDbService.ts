@@ -1,4 +1,4 @@
-import { IAWSDynamoDbConfiguration } from "../models/IAWSDynamoDbConfiguration";
+import { IAWSDynamoDbConfiguration } from "../models/configuration/IAWSDynamoDbConfiguration";
 import { AmazonDynamoDbHelper } from "../utils/amazonDynamoDbHelper";
 
 /**

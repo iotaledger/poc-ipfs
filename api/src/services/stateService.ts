@@ -1,5 +1,5 @@
+import { IAWSDynamoDbConfiguration } from "../models/configuration/IAWSDynamoDbConfiguration";
 import { IState } from "../models/db/IState";
-import { IAWSDynamoDbConfiguration } from "../models/IAWSDynamoDbConfiguration";
 import { AmazonDynamoDbService } from "./amazonDynamoDbService";
 
 /**

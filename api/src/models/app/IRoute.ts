@@ -1,4 +1,4 @@
-import { IConfiguration } from "./IConfiguration";
+import { IConfiguration } from "../configuration/IConfiguration";
 
 export interface IRoute {
     /**
@@ -30,6 +30,11 @@ export interface IRoute {
      * @param config The confiuration.
      * @param params The request parameters.
      * @param body The request body.
+     * @param header The headers in the http request.
      */
-    inline?(config: IConfiguration, params: any, body?: any): Promise<any>;
+    inline?(
+        config: IConfiguration,
+        params: unknown,
+        body?: unknown,
+        headers?: { [id: string]: unknown }): Promise<unknown>;
 }

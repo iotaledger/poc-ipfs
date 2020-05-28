@@ -1,7 +1,7 @@
 import { asTransactionObject, Transaction } from "@iota/transaction-converter";
 import { IIPFSRetrieveRequest } from "../models/api/IIPFSRetrieveRequest";
 import { IIPFSRetrieveResponse } from "../models/api/IIPFSRetrieveResponse";
-import { IConfiguration } from "../models/IConfiguration";
+import { IConfiguration } from "../models/configuration/IConfiguration";
 import { IPayload } from "../models/tangle/IPayload";
 import { BundleCacheService } from "../services/bundleCacheService";
 import { TransactionCacheService } from "../services/transactionCacheService";
