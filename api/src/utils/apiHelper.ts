@@ -224,7 +224,7 @@ export function cors(
         const origins = Array.isArray(allowOrigins) ? allowOrigins : allowOrigins.split(";");
         let isAllowed;
         for (const origin of origins) {
-            if (requestOrigin === origin) {
+            if (requestOrigin === origin || origin === "*") {
                 isAllowed = origin;
                 break;
             }
