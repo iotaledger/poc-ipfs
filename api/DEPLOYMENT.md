@@ -16,10 +16,10 @@ To configure the `api` you should copy `./src/data/config.template.json` to `./s
         "token": "MYIPFSNODE_TOKEN"                  /* Optional token passed in Authorization header */
     },
     "dynamoDbConnection": {
-        "region": "AWS-REGION",                      /* AWS Region e.g. eu-central-1 */
-        "accessKeyId": "AWS-ACCESS-KEY-ID",          /* AWS Access Key e.g. AKIAI57SG4YC2ZUCSABC */
-        "secretAccessKey": "AWS-SECRET-ACCESS-KEY",  /* AWS Secret e.g. MUo72/UQWgL97QArGt9HVUA */
-        "dbTablePrefix": "DATABASE-TABLE-PREFIX"     /* Prefix for database table names e.g. certification-dev- */
+        "region": "DB-AWS-REGION",                      /* AWS Region e.g. eu-central-1 */
+        "accessKeyId": "DB-AWS-ACCESS-KEY-ID",          /* AWS Access Key e.g. AKIAI57SG4YC2ZUCSABC */
+        "secretAccessKey": "DB-AWS-SECRET-ACCESS-KEY",  /* AWS Secret e.g. MUo72/UQWgL97QArGt9HVUA */
+        "dbTablePrefix": "DB-TABLE-PREFIX"              /* Prefix for database table names e.g. certification-dev- */
     },
     "allowedDomains": [                              /* A list of domains for the cors allow-origin */
         "www.mydomain.com"                           /* Include http://localhost:3000 for local testing */
