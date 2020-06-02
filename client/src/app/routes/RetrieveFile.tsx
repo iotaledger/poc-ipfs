@@ -165,7 +165,7 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                                 <Success
                                     message={
                                         `The file on IPFS has been successfully validated against the data` +
-                                        ` on the Tangle, the file is linked below:}`}
+                                        ` on the Tangle, the file is linked below:`}
                                 />
                                 <br />
                                 <div>
