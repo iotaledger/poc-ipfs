@@ -34,14 +34,14 @@ jobs:
         run: |
           cd api/src/data/
           mv config.template.json config.$CONFIG_ID.json
-          sed -i 's/CONFIG_NODE1/${{ env.CONFIG_NODE1 }}/g' config.$CONFIG_ID.json
-          sed -i 's/CONFIG_IPFS_NODE_PROVIDER/${{ env.CONFIG_IPFS_NODE_PROVIDER }}/g' config.$CONFIG_ID.json
-          sed -i 's/CONFIG_IPFS_NODE_TOKEN/${{ env.CONFIG_IPFS_NODE_TOKEN }}/g' config.$CONFIG_ID.json
-          sed -i 's/CONFIG_DB_AWS_REGION/${{ env.CONFIG_DB_AWS_REGION }}/g' config.$CONFIG_ID.json
-          sed -i 's/CONFIG_DB_AWS_ACCESS_KEY_ID/${{ env.CONFIG_DB_AWS_ACCESS_KEY_ID }}/g' config.$CONFIG_ID.json
-          sed -i 's/CONFIG_DB_AWS_SECRET_ACCESS_KEY/${{ env.CONFIG_DB_AWS_SECRET_ACCESS_KEY }}/g' config.$CONFIG_ID.json
-          sed -i 's/CONFIG_DB_TABLE_PREFIX/${{ env.CONFIG_DB_TABLE_PREFIX }}/g' config.$CONFIG_ID.json
-          sed -i 's/CONFIG_ALLOWED_DOMAIN/${{ env.CONFIG_ALLOWED_DOMAIN }}/g' config.$CONFIG_ID.json
+          sed -i 's/NODE1/${{ env.CONFIG_NODE1 }}/g' config.$CONFIG_ID.json
+          sed -i 's/IPFS-NODE-PROVIDER/${{ env.CONFIG_IPFS_NODE_PROVIDER }}/g' config.$CONFIG_ID.json
+          sed -i 's/IPFS-NODE-TOKEN/${{ env.CONFIG_IPFS_NODE_TOKEN }}/g' config.$CONFIG_ID.json
+          sed -i 's/DB-AWS-REGION/${{ env.CONFIG_DB_AWS_REGION }}/g' config.$CONFIG_ID.json
+          sed -i 's/DB-AWS-ACCESS_KEY_ID/${{ env.CONFIG_DB_AWS_ACCESS_KEY_ID }}/g' config.$CONFIG_ID.json
+          sed -i 's/DB-AWS-SECRET_ACCESS_KEY/${{ env.CONFIG_DB_AWS_SECRET_ACCESS_KEY }}/g' config.$CONFIG_ID.json
+          sed -i 's/DB-TABLE-PREFIX/${{ env.CONFIG_DB_TABLE_PREFIX }}/g' config.$CONFIG_ID.json
+          sed -i 's/ALLOWED-DOMAIN/${{ env.CONFIG_ALLOWED_DOMAIN }}/g' config.$CONFIG_ID.json
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
