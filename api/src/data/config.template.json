@@ -1,12 +1,12 @@
 {
     "node": {
-        "provider": "https://MYNODE/",
+        "provider": "NODE1",
         "depth": 3,
         "mwm": 9
     },
     "ipfs": {
-        "provider": "MYIPFSNODE_PROVIDER",
-        "token": "MYIPFSNODE_TOKEN"
+        "provider": "IPFS-NODE-PROVIDER",
+        "token": "IPFS-NODE-TOKEN"
     },
     "dynamoDbConnection": {
         "region": "AWS-REGION",
