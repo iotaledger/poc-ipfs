@@ -5,6 +5,7 @@ on:
     branches: [master]
     paths:
       - "api/**"
+      - ".github/workflows/api-prod.yaml"
 
 jobs:
   build:

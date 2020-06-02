@@ -5,6 +5,7 @@ on:
     branches: [develop]
     paths:
       - "api/**"
+      - ".github/workflows/api-staging.yaml"
 
 jobs:
   build:

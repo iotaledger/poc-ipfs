@@ -5,6 +5,7 @@ on:
     branches: [master]
     paths:
       - "client/**"
+      - ".github/workflows/client-prod.yaml"
 jobs:
   build:
     runs-on: ubuntu-latest
