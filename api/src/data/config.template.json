@@ -9,13 +9,12 @@
         "token": "IPFS-NODE-TOKEN"
     },
     "dynamoDbConnection": {
-        "region": "AWS-REGION",
-        "accessKeyId": "AWS-ACCESS-KEY-ID",
-        "secretAccessKey": "AWS-SECRET-ACCESS-KEY",
-        "dbTablePrefix": "DATABASE-TABLE-PREFIX"
+        "region": "DB-AWS-REGION",
+        "accessKeyId": "DB-AWS-ACCESS-KEY-ID",
+        "secretAccessKey": "DB-AWS-SECRET-ACCESS-KEY",
+        "dbTablePrefix": "DB-TABLE-PREFIX"
     },
     "allowedDomains": [
-        "https://ipfs.iota.works",
-        "https://ipfs.iota.org"
+        "ALLOWED_DOMAIN"
     ]
 }

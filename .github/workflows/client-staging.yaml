@@ -1,9 +1,10 @@
-name: Build and Deploy Staging
+name: Client Build and Deploy Staging
 
 on:
   push:
     branches: [develop]
-
+    paths:
+      - "client/**"
 jobs:
   build:
     runs-on: ubuntu-latest

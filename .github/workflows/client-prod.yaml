@@ -1,9 +1,10 @@
-name: ClientBuild and Deploy Production
+name: Client Build and Deploy Production
 
 on:
   pull_request:
     branches: [master]
-
+    paths:
+      - "client/**"
 jobs:
   build:
     runs-on: ubuntu-latest
