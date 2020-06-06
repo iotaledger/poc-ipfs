@@ -1,8 +1,8 @@
 {
     "node": {
-        "provider": "NODE1",
-        "depth": 3,
-        "mwm": 9
+        "provider": "NODE1-PROVIDER",
+        "depth": NODE1-DEPTH,
+        "mwm": NODE1-MWM
     },
     "ipfs": {
         "provider": "IPFS-NODE-PROVIDER",
