@@ -1,9 +1,8 @@
 import "iota-css-theme";
-import { Footer, GoogleAnalytics, Header, LayoutAppSingle, SideMenu, StatusMessage } from "iota-react-components";
+import { Footer, FoundationDataHelper, GoogleAnalytics, Header, LayoutAppSingle, SideMenu, StatusMessage } from "iota-react-components";
 import React, { Component, ReactNode } from "react";
 import { Link, Route, RouteComponentProps, Switch, withRouter } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import contentHomePage from "../content/contentHomePage.json";
 import { ServiceFactory } from "../factories/serviceFactory";
 import { IConfiguration } from "../models/config/IConfiguration";
 import { ConfigurationService } from "../services/configurationService";
@@ -43,6 +42,8 @@ class App extends Component<RouteComponentProps, AppState> {
      */
     public async componentDidMount(): Promise<void> {
         try {
+            this.setState({ foundationData: await FoundationDataHelper.loadData() });
+
             const configService = new ConfigurationService<IConfiguration>();
             const configId = process.env.REACT_APP_CONFIG_ID || "local";
             const config = await configService.load(`/data/config.${configId}.json`);
@@ -76,7 +77,7 @@ class App extends Component<RouteComponentProps, AppState> {
             <React.Fragment>
                 <Header
                     title="IOTA IPFS"
-                    topLinks={contentHomePage.headerTopLinks}
+                    foundationData={this.state.foundationData}
                     logo={logo}
                     compact={true}
                     hamburgerClick={() => this.setState({ isSideMenuOpen: !this.state.isSideMenuOpen })}
@@ -135,8 +136,30 @@ class App extends Component<RouteComponentProps, AppState> {
                 </section>
                 <Footer
                     history={this.props.history}
-                    sections={contentHomePage.footerSections}
-                    staticContent={contentHomePage.footerStaticContent}
+                    foundationData={this.state.foundationData}
+                    sections={[
+                        {
+                            heading: "IOTA IPFS",
+                            links: [
+                                {
+                                    href: "/",
+                                    text: "Upload File"
+                                },
+                                {
+                                    href: "/retrieve",
+                                    text: "Retrieve File"
+                                },
+                                {
+                                    href: "https://docs.iota.org/docs/blueprints/0.1/tangle-data-storage/overview",
+                                    text: "Blueprint"
+                                },
+                                {
+                                    href: "https://github.com/iotaledger/poc-ipfs",
+                                    text: "GitHub"
+                                }
+                            ]
+                        }]
+                    }
                 />
                 <GoogleAnalytics id={this._configuration && this._configuration.googleAnalyticsId} />
             </React.Fragment>

@@ -1,4 +1,4 @@
-import { StatusMessageColor } from "iota-react-components";
+import { IFoundationData, StatusMessageColor } from "iota-react-components";
 
 export interface AppState {
     /**
@@ -20,4 +20,9 @@ export interface AppState {
      * Is the side menu open.
      */
     isSideMenuOpen: boolean;
+
+    /**
+     * Foundation data to display.
+     */
+    foundationData?: IFoundationData;
 }
