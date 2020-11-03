@@ -35,11 +35,11 @@ for (const route of routes) {
 }
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 4000;
-app.listen(port, err => {
-    if (err) {
-        throw err;
-    }
-
+app.listen(port, () => {
     console.log(`Started API Server on port ${port}`);
     console.log(`Running Config '${configId}'`);
+});
+
+app.on("error", error => {
+    console.error("Error while initializing service:", error);
 });
