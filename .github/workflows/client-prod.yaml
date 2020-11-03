@@ -15,6 +15,7 @@ jobs:
       CONFIG_ID: prod
       CONFIG_API_ENDPOINT: ${{ secrets.PROD_CONFIG_API_ENDPOINT }}
       CONFIG_GOOGLE_ANALYTICS_ID: ${{ secrets.PROD_CONFIG_GOOGLE_ANALYTICS_ID }}
+      TANGLE_EXPLORER_TRANSACTIONS: ${{ secrets.PROD_TANGLE_EXPLORER_TRANSACTIONS }}
       VERCEL_DOMAIN: ${{ secrets.VERCEL_CLIENT_PROD_DOMAIN }}
 
       # Global Vercel env vars
@@ -30,6 +31,7 @@ jobs:
           mv config.template.json config.$CONFIG_ID.json
           sed -i 's/API-ENDPOINT/${{ env.CONFIG_API_ENDPOINT }}/g' config.$CONFIG_ID.json
           sed -i 's/GOOGLE-ANALYTICS-ID/${{ env.CONFIG_GOOGLE_ANALYTICS_ID }}/g' config.$CONFIG_ID.json
+          sed -i 's/TANGLE-EXPLORER-TRANSACTIONS/${{ env.TANGLE_EXPLORER_TRANSACTIONS }}/g' config.$CONFIG_ID.json
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:

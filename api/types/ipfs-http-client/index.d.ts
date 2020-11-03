@@ -24,7 +24,7 @@ declare module "ipfs-http-client" {
         }
 
         interface IPFSClient {
-            add(buffer: Buffer): AsyncIterable<IPFSFile>;
+            add(buffer: Buffer): Promise<IPFSFile>;
         }
     }
 

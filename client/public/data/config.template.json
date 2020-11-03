@@ -2,7 +2,7 @@
     "apiEndpoint": "API-ENDPOINT",
     "ipfsGateway": "https://ipfs.io/ipfs/:hash",
     "tangleExplorer": {
-        "transactions": "https://explorer.iota.org/devnet/transaction/:transactionHash"
+        "transactions": "TANGLE-EXPLORER-TRANSACTIONS"
     },
     "googleAnalyticsId": "GOOGLE-ANALYTICS-ID"
 }
