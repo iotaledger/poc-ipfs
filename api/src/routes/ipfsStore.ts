@@ -32,14 +32,17 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
 
         await IotaHelper.isNodeAvailable(config.node.provider, true);
 
-        const maxSize = 0.5 * 1048576;
+        const BYTES_PER_MEGABYTE = 1048576;
+        const maxSize = config.maxBytes ?? BYTES_PER_MEGABYTE / 2;
 
         const buffer = Buffer.from(request.data, "base64");
 
         if (buffer.length >= maxSize) {
+            const size = maxSize >= BYTES_PER_MEGABYTE
+                ? `${(maxSize / BYTES_PER_MEGABYTE).toFixed(1)} Mb`
+                : `${(maxSize / 1024)} Kb`;
             throw new Error(
-                `The file is too large for this demonstration, it should be less than ${
-                (maxSize / 1048576).toFixed(1)} Mb.`
+                `The file is too large for this demonstration, it should be less than ${size}.`
             );
         }
 

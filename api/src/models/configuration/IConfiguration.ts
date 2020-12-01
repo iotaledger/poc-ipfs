@@ -25,4 +25,9 @@ export interface IConfiguration {
      * A list of domains allowed to access the api.
      */
     allowedDomains: string[];
+
+    /**
+     * The maximum number of bytes allowed.
+     */
+    maxBytes?: number;
 }

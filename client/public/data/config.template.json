@@ -4,5 +4,6 @@
     "tangleExplorer": {
         "transactions": "TANGLE-EXPLORER-TRANSACTIONS"
     },
-    "googleAnalyticsId": "GOOGLE-ANALYTICS-ID"
+    "googleAnalyticsId": "GOOGLE-ANALYTICS-ID",
+    "maxBytes": MAX-BYTES
 }

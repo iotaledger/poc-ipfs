@@ -18,7 +18,7 @@ class UploadFile extends Component<any, UploadFileState> {
     /**
      * The maximum file size we want to accept.
      */
-    private static readonly MAX_FILE_SIZE: number = 0.5 * 1048576;
+    private static readonly BYTES_PER_MEGABYTE: number = 1048576;
 
     /**
      * The configuration.
@@ -52,6 +52,12 @@ class UploadFile extends Component<any, UploadFileState> {
         this._ipfsService = ServiceFactory.get<IpfsService>("ipfs");
         this._tangleExplorerService = ServiceFactory.get<TangleExplorerService>("tangleExplorer");
 
+        const maxSize = this._configuration.maxBytes ?? UploadFile.BYTES_PER_MEGABYTE / 2;
+
+        const maxSizeString = maxSize >= UploadFile.BYTES_PER_MEGABYTE
+                ? `${(maxSize / UploadFile.BYTES_PER_MEGABYTE).toFixed(1)} Mb`
+                : `${(maxSize / 1024)} Kb`
+
         this.state = {
             isBusy: false,
             isValid: false,
@@ -65,7 +71,8 @@ class UploadFile extends Component<any, UploadFileState> {
             fileHash: "",
             fileBuffer: undefined,
             transactionHash: "",
-            ipfsHash: ""
+            ipfsHash: "",
+            maxSize: maxSizeString
         };
     }
 
@@ -80,8 +87,7 @@ class UploadFile extends Component<any, UploadFileState> {
                     <React.Fragment>
                         <Heading level={1}>Upload File</Heading>
                         <p>Please select the file you want to upload to the Tangle and IPFS.<br />
-                            The file must be greater than 0 bytes and less than {
-                                (UploadFile.MAX_FILE_SIZE / 1048576).toFixed(1)} Mb in size.<br />
+                            The file must be greater than 0 bytes and less than {this.state.maxSize} in size.<br />
                             This limit is imposed by this demonstration, IPFS has no real limits in this respect.</p>
                         <Form>
                             <Fieldset>
@@ -108,12 +114,12 @@ class UploadFile extends Component<any, UploadFileState> {
                                                 {
                                                     danger:
                                                         this.state.fileSize === 0 ||
-                                                        this.state.fileSize > UploadFile.MAX_FILE_SIZE
+                                                        this.state.fileSize > UploadFile.BYTES_PER_MEGABYTE
                                                 })
                                         }
                                     >
                                         {this.state.fileSize} bytes
-                                        {this.state.fileSize > UploadFile.MAX_FILE_SIZE
+                                        {this.state.fileSize > UploadFile.BYTES_PER_MEGABYTE
                                             ? " - the file is too large for this demonstration" : ""}
                                         {this.state.fileSize === 0
                                             ? " - the file is too small for this demonstration" : ""}
@@ -258,7 +264,7 @@ class UploadFile extends Component<any, UploadFileState> {
             this.state.fileDescription.trim().length > 0 &&
             this.state.fileSize !== undefined &&
             this.state.fileSize > 0 &&
-            this.state.fileSize < UploadFile.MAX_FILE_SIZE;
+            this.state.fileSize < UploadFile.BYTES_PER_MEGABYTE;
         this.setState({ isValid, status: "" });
         return isValid;
     }

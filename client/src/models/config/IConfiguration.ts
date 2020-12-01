@@ -20,4 +20,9 @@ export interface IConfiguration {
      * The google analytics id.
      */
     googleAnalyticsId: string;
+
+    /**
+     * The maximum number of bytes allowed.
+     */
+    maxBytes?: number;
 }
