@@ -64,4 +64,9 @@ export interface UploadFileState {
      * The ipfs hash for the file.
      */
     ipfsHash?: string;
+
+    /**
+     * The maximum size.
+     */
+    maxSize: string;
 }
