@@ -219,7 +219,7 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
      * @returns True if the data is valid.
      */
     private validateData(): boolean {
-        const isValid = /[A-Z9]{81}/.test(this.state.transactionHash) && this.state.transactionHash.length === 81;
+        const isValid = /^[\da-z]{64}/.test(this.state.transactionHash) && this.state.transactionHash.length === 64;
         this.setState({ isValid, status: "" });
         return isValid;
     }

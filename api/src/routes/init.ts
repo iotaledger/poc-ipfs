@@ -1,7 +1,8 @@
 import { IConfiguration } from "../models/configuration/IConfiguration";
-import { BundleCacheService } from "../services/bundleCacheService";
-import { StateService } from "../services/stateService";
-import { TransactionCacheService } from "../services/transactionCacheService";
+// import { BundleCacheService } from "../services/bundleCacheService";
+// import { StateService } from "../services/stateService";
+// import { TransactionCacheService } from "../services/transactionCacheService";
+import { MessageCacheService } from "../services/messageCacheService";
 
 /**
  * Initialise the database.
@@ -12,9 +13,11 @@ export async function init(config: IConfiguration): Promise<string[]> {
     let log = "Initializing\n";
 
     try {
-        log += await new BundleCacheService(config.dynamoDbConnection, config.node.provider, false).createTable();
-        log += await new TransactionCacheService(config.dynamoDbConnection, config.node.provider, false).createTable();
-        log += await new StateService(config.dynamoDbConnection).createTable();
+        // not needed anymore
+        // log += await new BundleCacheService(config.dynamoDbConnection, config.node.provider, false).createTable();
+        // log += await new TransactionCacheService(config.dynamoDbConnection, config.node.provider, false).createTable();
+        // log += await new StateService(config.dynamoDbConnection).createTable();
+        log += await new MessageCacheService(config.dynamoDbConnection, config.node.provider).createTable();
 
     } catch (err) {
         log += `Failed\n${err.toString()}\n`;

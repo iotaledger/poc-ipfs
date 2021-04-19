@@ -142,11 +142,10 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
 
         // Chrysalis client instance
         const client = new ClientBuilder().node(config.node.provider).build();
-        // client.getInfo().then(console.log).catch(console.error);
 
         await client
             .message()
-            .index('asdf')
+            .index('test')
             .data(new TextEncoder().encode(json))
             .submit()
             .then(msg => message = msg)

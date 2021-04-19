@@ -210,7 +210,7 @@ class UploadFile extends Component<any, UploadFileState> {
                             </Button>
                         </ButtonContainer>
                         <p>A public gateway for the file is linked below, the file may not be available immediately
-                             as it takes time to propogate through the IPFS network.</p>
+                            as it takes time to propogate through the IPFS network.</p>
                         <ButtonContainer>
                             <Button
                                 color="secondary"

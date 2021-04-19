@@ -18,7 +18,7 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
     private readonly _provider: string;
 
     /**
-     * The Client-instance
+     * Client-instance
      */
     private _client: Client;
 
@@ -31,7 +31,6 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
     constructor(config: IAWSDynamoDbConfiguration, provider: string) {
         super(config, MessageCacheService.TABLE_NAME, "messageId");
         this._provider = provider;
-
         try {
             this._client = new ClientBuilder()
                 .node(this._provider)
@@ -56,13 +55,13 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
             catch (err) {
             }
         }
-        
+
         return super.get(messageId);
     }
 
     /**
      * Helper function to check if the node is healthy
-     * @returns Boolean-value stating node is healthy or not
+     * @returns a boolean-value to check if the node is healthy or not
      */
     public async isNodeHealthy(): Promise<boolean> {
         return this._client && this._client.getInfo()
