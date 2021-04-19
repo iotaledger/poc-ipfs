@@ -24,7 +24,7 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
 
 
     /**
-     * Create a new instance of TransactionCacheService.
+     * Create a new instance of MessageCacheService.
      * @param config The configuration to use.
      * @param provider The tangle node.
      */
