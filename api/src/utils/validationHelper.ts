@@ -37,14 +37,12 @@ export class ValidationHelper {
     }
 
     /**
-     * Is the value trytes.
+     * Is the given string a valid messageId
      * @param str The string to validate.
-     * @param length The length to match.
-     * @param name The parameter name.
      */
-    public static trytes(str: string, length: number, name: string): void {
-        if (!new RegExp(`^[A-Z9]{${length}}$`).test(str)) {
-            throw new Error(`The parameter '${name}' has an invalid value.`);
+    public static isMessageId(str: string): void {
+        if (!new RegExp(`^[0-9a-f]{${str.length}}$`).test(str) || str.length != 64) {
+            throw new Error(`The messageId is invalid`);
         }
     }
 }

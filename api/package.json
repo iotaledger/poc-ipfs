@@ -25,7 +25,6 @@
     },
     "dependencies": {
         "@iota/client": "^0.3.1",
-        "@iota/core": "^1.0.0-beta.8",
         "aws-sdk": "^2.784.0",
         "axios": "^0.21.1",
         "body-parser": "^1.19.0",

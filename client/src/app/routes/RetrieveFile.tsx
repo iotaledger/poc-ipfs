@@ -84,7 +84,7 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                                 <label>Transaction Hash</label>
                                 <input
                                     type="text"
-                                    placeholder="Please enter the transaction hash in trytes"
+                                    placeholder="Please enter the transaction hash"
                                     value={this.state.transactionHash}
                                     onChange={e => this.setState(
                                         { transactionHash: e.target.value }, () => this.validateData())}
