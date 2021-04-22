@@ -7,6 +7,7 @@ import { IConfiguration } from "../models/configuration/IConfiguration";
 import { IPayload } from "../models/tangle/IPayload";
 import { MessageCacheService } from '../services/messageCacheService';
 import { ValidationHelper } from "../utils/validationHelper";
+import { IotaC2Helper } from "../utils/iotaC2Helper";
 import { ClientBuilder } from "@iota/client";
 
 /**
@@ -106,9 +107,11 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         // Chrysalis client instance
         const client = new ClientBuilder().node(config.node.provider).build();
 
+        const index = IotaC2Helper.generateHash();
+
         await client
             .message()
-            .index('test')
+            .index(index)
             .data(new TextEncoder().encode(json))
             .submit()
             .then(msg => message = msg)
