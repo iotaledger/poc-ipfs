@@ -45,7 +45,7 @@ export class ApiClient {
     }
 
     /**
-     * Perform a request to retrieve a file details from a transaction.
+     * Perform a request to retrieve a file details from a message.
      * @param request The request to send.
      * @returns The response from the request.
      */

@@ -53,8 +53,8 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
             fileAlgorithm: undefined,
             fileHash: "",
             fileBuffer: undefined,
-            transactionHash: this.props.match.params &&
-                this.props.match.params.transactionHash === undefined ? "" : this.props.match.params.transactionHash,
+            messageId: this.props.match.params &&
+                this.props.match.params.messageId === undefined ? "" : this.props.match.params.messageId,
             ipfsHash: ""
         };
     }
@@ -78,16 +78,16 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                 {!this.state.fileName && (
                     <React.Fragment>
                         <Heading level={1}>Retrieve File</Heading>
-                        <p>Please enter the transaction hash of the file to retrieve from the Tangle and IPFS.</p>
+                        <p>Please enter the message id of the file to retrieve from the Tangle and IPFS.</p>
                         <Form>
                             <Fieldset>
-                                <label>Transaction Hash</label>
+                                <label>Message ID</label>
                                 <input
                                     type="text"
-                                    placeholder="Please enter the transaction hash"
-                                    value={this.state.transactionHash}
+                                    placeholder="Please enter the message id"
+                                    value={this.state.messageId}
                                     onChange={e => this.setState(
-                                        { transactionHash: e.target.value }, () => this.validateData())}
+                                        { messageId: e.target.value }, () => this.validateData())}
                                     readOnly={this.state.isBusy}
                                 />
                             </Fieldset>
@@ -219,7 +219,7 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
      * @returns True if the data is valid.
      */
     private validateData(): boolean {
-        const isValid = /^[\da-z]{64}/.test(this.state.transactionHash) && this.state.transactionHash.length === 64;
+        const isValid = /^[\da-z]{64}/.test(this.state.messageId) && this.state.messageId.length === 64;
         this.setState({ isValid, status: "" });
         return isValid;
     }
@@ -236,7 +236,7 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
             },
             async () => {
                 const response = await this._apiClient.retrieveFile({
-                    transactionHash: this.state.transactionHash || ""
+                    messageId: this.state.messageId || ""
                 });
 
                 if (response.success) {
@@ -326,7 +326,7 @@ class RetrieveFile extends Component<RouteComponentProps<RetrieveFileParams>, Re
                 fileAlgorithm: undefined,
                 fileHash: "",
                 fileBuffer: undefined,
-                transactionHash: "",
+                messageId: "",
                 ipfsHash: ""
             },
             () => {

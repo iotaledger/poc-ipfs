@@ -126,7 +126,7 @@ class App extends Component<RouteComponentProps, AppState> {
                                 <Route exact={true} path="/" component={() => (<UploadFile hash={Date.now()} />)} />
                                 <Route
                                     exact={true}
-                                    path="/retrieve/:transactionHash?/:hash?"
+                                    path="/retrieve/:messageId?/:hash?"
                                     component={(props: RouteComponentProps<RetrieveFileParams>) =>
                                         (<RetrieveFile {...props} />)}
                                 />

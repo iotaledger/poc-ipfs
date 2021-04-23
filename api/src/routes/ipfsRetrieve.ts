@@ -15,16 +15,16 @@ export async function ipfsRetrieve(
     config: IConfiguration,
     request: IIPFSRetrieveRequest): Promise<IIPFSRetrieveResponse> {
     try {
-        ValidationHelper.string(request.transactionHash, "transactionHash");
-        ValidationHelper.isMessageId(request.transactionHash);
+        ValidationHelper.string(request.messageId, "messageId");
+        ValidationHelper.isMessageId(request.messageId);
 
         const messageCacheService = new MessageCacheService(
             config.dynamoDbConnection,
             config.node.provider);
-        const message = await messageCacheService.get(request.transactionHash);
+        const message = await messageCacheService.get(request.messageId);
 
         if (!message) {
-            throw new Error(`Unable to locate the specified message: '${request.transactionHash}'.`);
+            throw new Error(`Unable to locate the specified message: '${request.messageId}'.`);
         }
 
         const payload = await IotaC2Helper.messageToPayload(message);

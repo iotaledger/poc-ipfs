@@ -70,7 +70,7 @@ class UploadFile extends Component<any, UploadFileState> {
             fileAlgorithm: "sha3",
             fileHash: "",
             fileBuffer: undefined,
-            transactionHash: "",
+            messageId: "",
             ipfsHash: "",
             maxSize: maxSizeString
         };
@@ -83,7 +83,7 @@ class UploadFile extends Component<any, UploadFileState> {
     public render(): ReactNode {
         return (
             <React.Fragment>
-                {!this.state.transactionHash && (
+                {!this.state.messageId && (
                     <React.Fragment>
                         <Heading level={1}>Upload File</Heading>
                         <p>Please select the file you want to upload to the Tangle and IPFS.<br />
@@ -189,22 +189,22 @@ class UploadFile extends Component<any, UploadFileState> {
                         </Form>
                     </React.Fragment>
                 )}
-                {this.state.transactionHash && (
+                {this.state.messageId && (
                     <React.Fragment>
                         <Heading level={1}>File Uploaded</Heading>
                         <Success message="The file has successfully been added to the Tangle and IPFS." />
-                        <p>You can view the transaction on the Tangle here.</p>
+                        <p>You can view the message on the Tangle here.</p>
                         <ButtonContainer>
                             <Button
                                 color="secondary"
                                 long={true}
-                                onClick={() => this._tangleExplorerService.transaction(this.state.transactionHash)}
+                                onClick={() => this._tangleExplorerService.message(this.state.messageId)}
                             >
-                                {this.state.transactionHash}
+                                {this.state.messageId}
                             </Button>
                             <Button
                                 color="secondary"
-                                onClick={() => ClipboardHelper.copy(this.state.transactionHash)}
+                                onClick={() => ClipboardHelper.copy(this.state.messageId)}
                             >
                                 Copy Tangle Hash
                             </Button>
@@ -333,7 +333,7 @@ class UploadFile extends Component<any, UploadFileState> {
                         isBusy: false,
                         status: "",
                         isErrored: false,
-                        transactionHash: response.transactionHash,
+                        messageId: response.messageId,
                         ipfsHash: response.ipfs
                     });
                 } else {
@@ -362,7 +362,7 @@ class UploadFile extends Component<any, UploadFileState> {
                 fileModified: undefined,
                 fileHash: "",
                 fileBuffer: undefined,
-                transactionHash: "",
+                messageId: "",
                 ipfsHash: ""
             },
             () => {

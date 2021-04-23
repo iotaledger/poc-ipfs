@@ -21,9 +21,9 @@ export interface RetrieveFileState {
     status: string;
 
     /**
-     * The hash of the transaction to validate.
+     * The message id to validate.
      */
-    transactionHash: string;
+    messageId: string;
 
     /**
      * The name of the file.

@@ -1,6 +1,6 @@
 export interface ITangleExplorerConfiguration {
     /**
-     * The endpoint for transactions.
+     * The endpoint for messages.
      */
-    transactions: string;
+    messages: string;
 }

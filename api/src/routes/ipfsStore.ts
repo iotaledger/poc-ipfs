@@ -125,7 +125,7 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
         return {
             success: true,
             message: "OK",
-            transactionHash: message.messageId,
+            messageId: message.messageId,
             ipfs: tanglePayload.ipfs
         };
     } catch (err) {

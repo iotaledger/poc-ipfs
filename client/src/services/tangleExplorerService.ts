@@ -18,12 +18,12 @@ export class TangleExplorerService {
     }
 
     /**
-     * Open a transaction hash in the explorer.
-     * @param transactionHash The transaction hash.
+     * Open a message in the explorer.
+     * @param messageId The id of the message.
      */
-    public transaction(transactionHash?: string): void {
-        if (transactionHash) {
-            window.open(this._config.transactions.replace(":transactionHash", transactionHash), "_blank");
+    public message(messageId?: string): void {
+        if (messageId) {
+            window.open(this._config.messages.replace(":messageId", messageId), "_blank");
         }
     }
 }

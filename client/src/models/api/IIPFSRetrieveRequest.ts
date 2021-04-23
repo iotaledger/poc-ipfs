@@ -1,6 +1,6 @@
 export interface IIPFSRetrieveRequest {
     /**
-     * The transaction hash of the file to retrieve.
+     * The message id of the file to retrieve.
      */
-    transactionHash: string;
+    messageId: string;
 }

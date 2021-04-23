@@ -9,7 +9,7 @@ You should copy `./public/data/config.template.json` to `./public/data/config.lo
     "apiEndpoint": "API-ENDPOINT",               /* The url of the api endpoint e.g. https://api.my-domain.com */
     "ipfsGateway": "https://ipfs.io/ipfs/:hash", /* Url of an IPFS gateway for viewing files */
     "tangleExplorer": {
-        "transactions": "https://explorer.iota.org/mainnet/transaction/:transactionHash"
+        "messages": "https://explorer.iota.org/chrysalis/message/:messageId"
     },
     "googleAnalyticsId": "GOOGLE-ANALYTICS-ID"   /* Optional, google analytics id */
 }

@@ -3,7 +3,7 @@ export interface RetrieveFileParams {
     /**
      * The hash to validate.
      */
-    transactionHash: string;
+    messageId: string;
 
     /**
      * Hash

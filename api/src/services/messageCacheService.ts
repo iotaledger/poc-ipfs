@@ -42,7 +42,7 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
 
     /**
      * Get the message with the given id.
-     * @param messageId The message-id.
+     * @param messageId The message id.
      * @returns The message if it can be found.
      */
     public async get(messageId: string): Promise<MessageWrapper> {

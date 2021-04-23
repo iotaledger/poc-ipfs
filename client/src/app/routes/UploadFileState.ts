@@ -56,9 +56,9 @@ export interface UploadFileState {
     fileBuffer?: Buffer;
 
     /**
-     * The transaction hash for the file.
+     * The message id for the file.
      */
-    transactionHash?: string;
+    messageId?: string;
 
     /**
      * The ipfs hash for the file.
