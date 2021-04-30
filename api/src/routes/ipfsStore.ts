@@ -6,9 +6,11 @@ import { IIPFSStoreResponse } from "../models/api/IIPFSStoreResponse";
 import { IConfiguration } from "../models/configuration/IConfiguration";
 import { IPayload } from "../models/tangle/IPayload";
 import { MessageCacheService } from '../services/messageCacheService';
+import { StateService } from './../services/stateService';
 import { ValidationHelper } from "../utils/validationHelper";
 import { IotaC2Helper } from "../utils/iotaC2Helper";
 import { ClientBuilder } from "@iota/client";
+import { Converter, Blake2b } from "@iota/iota.js";
 
 /**
  * Ipfs store command.
@@ -104,14 +106,36 @@ export async function ipfsStore(config: IConfiguration, request: IIPFSStoreReque
 
         const json = JSON.stringify(tanglePayload);
 
+        const stateService = new StateService(config.dynamoDbConnection);
+
+        const currentState = await stateService.get("default-c2");
+        if (!currentState) {
+            currentState.seed = IotaC2Helper.generateHash(),
+                currentState.id = "default-c2",
+                currentState.addressIndex = 0
+        } else {
+            currentState.addressIndex++;
+        }
+
+        await stateService.set(currentState);
+
         // Chrysalis client instance
         const client = new ClientBuilder().node(config.node.provider).build();
 
-        const index = IotaC2Helper.generateHash();
+        const addresses = await client.getAddresses(currentState.seed)
+
+        const address = await addresses
+            .accountIndex(0)
+            .range(currentState.addressIndex, currentState.addressIndex + 1)
+            .get();
+
+        const hashedAddress = Blake2b.sum256(Converter.utf8ToBytes(address[0].toString()));
 
         await client
             .message()
-            .index(index)
+            .index(Converter.bytesToHex(hashedAddress))
+            .seed(currentState.seed)
+            .accountIndex(0)
             .data(new TextEncoder().encode(json))
             .submit()
             .then(msg => message = msg)

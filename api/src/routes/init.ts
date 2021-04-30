@@ -1,5 +1,6 @@
 import { IConfiguration } from "../models/configuration/IConfiguration";
 import { MessageCacheService } from "../services/messageCacheService";
+import { StateService } from './../services/stateService';
 
 /**
  * Initialise the database.
@@ -10,6 +11,7 @@ export async function init(config: IConfiguration): Promise<string[]> {
     let log = "Initializing\n";
 
     try {
+        log += await new StateService(config.dynamoDbConnection).createTable();
         log += await new MessageCacheService(config.dynamoDbConnection, config.node.provider).createTable();
 
     } catch (err) {

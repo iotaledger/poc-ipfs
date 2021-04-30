@@ -1,4 +1,5 @@
 import * as crypto from "crypto";
+import { Converter } from "@iota/iota.js";
 import { IPayload } from "../models/tangle/IPayload";
 import { MessageWrapper } from "@iota/client/lib/types";
 
@@ -13,18 +14,7 @@ export class IotaC2Helper {
      */
     public static generateHash(): string {
         const hash = crypto.createHash('sha256').update(crypto.randomBytes(256)).digest('hex');
-
         return hash;
-    }
-
-    /**
-     * Convert an object from raw Byte-Array.
-     * @param byteArray The Byte-Array to decode.
-     * @returns The decoded object.
-     */
-    public static fromByteArray<T>(byteArray: number[]): T {
-        const payload = String.fromCharCode.apply(null, byteArray);
-        return payload ? JSON.parse(payload) : undefined;
     }
 
     /**
@@ -37,7 +27,7 @@ export class IotaC2Helper {
             throw new Error(`Invalid messageId: ${message.messageId}. Message has no Indexation Payload containing data.`);
         }
 
-        const payload: IPayload = this.fromByteArray<IPayload>(message.message.payload.data.data);
+        const payload: IPayload = JSON.parse(Converter.bytesToUtf8(message.message.payload.data.data));
 
         if (payload) {
             return payload;
