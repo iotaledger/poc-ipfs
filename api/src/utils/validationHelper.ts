@@ -41,7 +41,7 @@ export class ValidationHelper {
      * @param str The string to validate.
      */
     public static isMessageId(str: string): void {
-        if (!new RegExp(`^[0-9a-f]{${str.length}}$`).test(str) || str.length != 64) {
+        if (!new RegExp(`^[0-9a-f]{${str.length}}$`).test(str) || str.length !== 64) {
             throw new Error(`The messageId is invalid`);
         }
     }

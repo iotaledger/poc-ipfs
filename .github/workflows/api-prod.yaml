@@ -15,8 +15,6 @@ jobs:
       # Build specific env vars
       CONFIG_ID: prod
       CONFIG_NODE1_PROVIDER: ${{ secrets.PROD_CONFIG_NODE1_PROVIDER }}
-      CONFIG_NODE1_MWM: ${{ secrets.PROD_CONFIG_NODE1_MWM }}
-      CONFIG_NODE1_DEPTH: ${{ secrets.PROD_CONFIG_NODE1_DEPTH }}
       CONFIG_IPFS_NODE_PROVIDER: ${{ secrets.PROD_CONFIG_IPFS_NODE_PROVIDER }}
       CONFIG_IPFS_NODE_TOKEN: ${{ secrets.PROD_CONFIG_IPFS_NODE_TOKEN }}
       CONFIG_DB_AWS_REGION: ${{ secrets.PROD_CONFIG_DB_AWS_REGION }}
@@ -39,8 +37,6 @@ jobs:
           cd api/src/data/
           mv config.template.json config.$CONFIG_ID.json
           sed -i 's/NODE1-PROVIDER/${{ env.CONFIG_NODE1_PROVIDER }}/g' config.$CONFIG_ID.json
-          sed -i 's/NODE1-DEPTH/${{ env.CONFIG_NODE1_DEPTH }}/g' config.$CONFIG_ID.json
-          sed -i 's/NODE1-MWM/${{ env.CONFIG_NODE1_MWM }}/g' config.$CONFIG_ID.json
           sed -i 's/IPFS-NODE-PROVIDER/${{ env.CONFIG_IPFS_NODE_PROVIDER }}/g' config.$CONFIG_ID.json
           sed -i 's/IPFS-NODE-TOKEN/${{ env.CONFIG_IPFS_NODE_TOKEN }}/g' config.$CONFIG_ID.json
           sed -i 's/DB-AWS-REGION/${{ env.CONFIG_DB_AWS_REGION }}/g' config.$CONFIG_ID.json

@@ -1,6 +1,6 @@
 import { IConfiguration } from "../models/configuration/IConfiguration";
 import { MessageCacheService } from "../services/messageCacheService";
-import { StateService } from './../services/stateService';
+import { StateService } from "../services/stateService";
 
 /**
  * Initialise the database.

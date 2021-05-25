@@ -1,7 +1,7 @@
-import { IAWSDynamoDbConfiguration } from "../models/configuration/IAWSDynamoDbConfiguration";
-import { AmazonDynamoDbService } from "./amazonDynamoDbService";
 import { Client, ClientBuilder } from "@iota/client";
 import { MessageWrapper } from "@iota/client/lib/types";
+import { IAWSDynamoDbConfiguration } from "../models/configuration/IAWSDynamoDbConfiguration";
+import { AmazonDynamoDbService } from "./amazonDynamoDbService";
 
 /**
  * Service to handle the message cache.
@@ -20,8 +20,7 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
     /**
      * Client-instance
      */
-    private _client: Client;
-
+    private readonly _client: Client;
 
     /**
      * Create a new instance of MessageCacheService.
@@ -35,8 +34,7 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
             this._client = new ClientBuilder()
                 .node(this._provider)
                 .build();
-        }
-        catch (err) {
+        } catch (err) {
         }
     }
 
@@ -48,11 +46,8 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
     public async get(messageId: string): Promise<MessageWrapper> {
         if (await this.isNodeHealthy()) {
             try {
-                const message = await this._client.getMessage().data(messageId);
-
-                return message;
-            }
-            catch (err) {
+                return this._client.getMessage().data(messageId);
+            } catch (err) {
             }
         }
 
@@ -65,7 +60,7 @@ export class MessageCacheService extends AmazonDynamoDbService<MessageWrapper> {
      */
     public async isNodeHealthy(): Promise<boolean> {
         return this._client && this._client.getInfo()
-            .then(info => { return info.nodeinfo.isHealthy })
-            .catch(err => { return false });
+            .then(info => { return info.nodeinfo.isHealthy; })
+            .catch(err => { return false; });
     }
 }

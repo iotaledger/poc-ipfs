@@ -4,8 +4,8 @@ import { IConfiguration } from "./models/configuration/IConfiguration";
 import { routes } from "./routes";
 import { cors, executeRoute } from "./utils/apiHelper";
 
-// tslint:disable:no-var-requires no-require-imports non-literal-require
 const configId = process.env.CONFIG_ID || "local";
+// tslint:disable-next-line: no-var-requires non-literal-require
 const config: IConfiguration = require(`./data/config.${configId}.json`);
 
 const app: Application = express();

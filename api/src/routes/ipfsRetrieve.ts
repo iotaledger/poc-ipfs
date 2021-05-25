@@ -1,7 +1,7 @@
 import { IIPFSRetrieveRequest } from "../models/api/IIPFSRetrieveRequest";
 import { IIPFSRetrieveResponse } from "../models/api/IIPFSRetrieveResponse";
 import { IConfiguration } from "../models/configuration/IConfiguration";
-import { MessageCacheService } from '../services/messageCacheService';
+import { MessageCacheService } from "../services/messageCacheService";
 import { IotaC2Helper } from "../utils/iotaC2Helper";
 import { ValidationHelper } from "../utils/validationHelper";
 

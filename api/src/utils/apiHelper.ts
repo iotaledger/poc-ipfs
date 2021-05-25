@@ -105,7 +105,7 @@ export async function executeRoute(
             }
             let mod;
             try {
-                // tslint:disable-next-line:non-literal-require
+                // tslint:disable-next-line: non-literal-require
                 mod = require(modulePath);
             } catch (err) {
                 console.error(err);
@@ -177,7 +177,6 @@ export async function executeRoute(
  * @param obj The object to convert.
  * @returns The converted object.
  */
-// tslint:disable: no-any
 function logParams(obj: { [id: string]: any }): { [id: string]: string } {
     const newobj: { [id: string]: any } = {};
     for (const key in obj) {
