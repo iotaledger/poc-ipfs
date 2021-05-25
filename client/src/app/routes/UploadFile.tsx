@@ -56,7 +56,7 @@ class UploadFile extends Component<any, UploadFileState> {
 
         const maxSizeString = maxSize >= UploadFile.BYTES_PER_MEGABYTE
                 ? `${(maxSize / UploadFile.BYTES_PER_MEGABYTE).toFixed(1)} Mb`
-                : `${(maxSize / 1024)} Kb`
+                : `${(maxSize / 1024)} Kb`;
 
         this.state = {
             isBusy: false,
