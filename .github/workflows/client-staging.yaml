@@ -16,7 +16,7 @@ jobs:
       CONFIG_ID: staging
       CONFIG_API_ENDPOINT: ${{ secrets.STAGING_CONFIG_API_ENDPOINT }}
       CONFIG_GOOGLE_ANALYTICS_ID: ${{ secrets.STAGING_CONFIG_GOOGLE_ANALYTICS_ID }}
-      TANGLE_EXPLORER_TRANSACTIONS: ${{ secrets.STAGING_TANGLE_EXPLORER_TRANSACTIONS }}
+      TANGLE_EXPLORER_MESSAGES: ${{ secrets.STAGING_TANGLE_EXPLORER_MESSAGES }}
       CONFIG_MAX_BYTES: ${{ secrets.STAGING_CONFIG_MAX_BYTES }}
       VERCEL_DOMAIN: ${{ secrets.VERCEL_CLIENT_STAGING_DOMAIN }}
 
@@ -33,7 +33,7 @@ jobs:
           mv config.template.json config.$CONFIG_ID.json
           sed -i 's/API-ENDPOINT/${{ env.CONFIG_API_ENDPOINT }}/g' config.$CONFIG_ID.json
           sed -i 's/GOOGLE-ANALYTICS-ID/${{ env.CONFIG_GOOGLE_ANALYTICS_ID }}/g' config.$CONFIG_ID.json
-          sed -i 's/TANGLE-EXPLORER-TRANSACTIONS/${{ env.TANGLE_EXPLORER_TRANSACTIONS }}/g' config.$CONFIG_ID.json
+          sed -i 's/TANGLE-EXPLORER-MESSAGES/${{ env.TANGLE_EXPLORER_MESSAGES }}/g' config.$CONFIG_ID.json
           sed -i 's/MAX-BYTES/${{ env.CONFIG_MAX_BYTES }}/g' config.$CONFIG_ID.json
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1

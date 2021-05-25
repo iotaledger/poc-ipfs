@@ -2,7 +2,7 @@
     "apiEndpoint": "API-ENDPOINT",
     "ipfsGateway": "https://ipfs.io/ipfs/:hash",
     "tangleExplorer": {
-        "transactions": "TANGLE-EXPLORER-TRANSACTIONS"
+        "messages": "TANGLE-EXPLORER-MESSAGES"
     },
     "googleAnalyticsId": "GOOGLE-ANALYTICS-ID",
     "maxBytes": MAX-BYTES
